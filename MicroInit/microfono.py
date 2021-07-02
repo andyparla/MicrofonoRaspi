@@ -11,6 +11,15 @@ import RPi.GPIO as GPIO
 # export CFLAGS=-fcommon
 # pip3 install RPi.GPIO
 
+# COMO SACAR EL DEVICE ID DEL MICROFONO USB
+# sudo arecord --list-devices
+#### RETORNA LO SIGUIENTE, VER device 0: USB xxx ####
+"""
+**** List of CAPTURE Hardware Devices ****
+card 1: headset [Sennheiser USB headset], device 0: USB Audio [USB Audio]
+  Subdevices: 1/1
+  Subdevice #0: subdevice #0
+"""
 
 form_1 = pyaudio.paInt16 # 16-bit resolution
 chans = 1 # 2 channel

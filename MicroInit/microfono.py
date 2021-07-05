@@ -1,6 +1,5 @@
 import pyaudio
 import wave
-import RPi.GPIO as GPIO
 
 # INSTALACION PYAUDIO
 # sudo apt-get install libasound-dev portaudio19-dev libportaudio2 libportaudiocpp0
@@ -27,56 +26,53 @@ p = pyaudio.PyAudio()
 for ii in range (p.get_device_count()):
 	print(p.get_device_info_by_index(ii).get("name"))
 """
+FORM_1 = pyaudio.paInt16  # 16-bit resolution
+CHANS = 1  # 2 channel
+SAMP_RATE = 44100  # 44.1kHz sampling rate
+CHUNK = 4096  # 2^12 samples for buffer
+RECORD_SECS = 3  # seconds to record
+DEV_INDEX = 0  # device index found by p.get_device_info_by_index(ii)
+WAV_OUTPUT_FILENAME = 'test1.wav'  # name of .wav file
 
 
-form_1 = pyaudio.paInt16 # 16-bit resolution
-chans = 1 # 2 channel
-samp_rate = 44100 # 44.1kHz sampling rate
-chunk = 4096 # 2^12 samples for buffer
-record_secs = 3 # seconds to record
-dev_index = 0 # device index found by p.get_device_info_by_index(ii)
-wav_output_filename = 'test1.wav' # name of .wav file
+class Microfono():
 
+    def __init__(self):
+        print("Inicializando clase")
+        self.audio = pyaudio.PyAudio()
+        # create pyaudio stream
+        self.stream = self.audio.open(format=FORM_1,
+                                      rate=SAMP_RATE,
+                                      channels=CHANS,
+                                      input_device_index=DEV_INDEX,
+                                      input=True,
+                                      frames_per_buffer=CHUNK)
 
-#GPIO pin setup for button
-ledPin = 18
-buttonPin = 23
+    def comenzarGrabacion(self):
+        print("Grabando...")
 
-audio = pyaudio.PyAudio()
+        self.frames = []
+        # loop through stream and append audio chunks to frame array
+        data = self.stream.read(CHUNK)
+        self.frames.append(data)
 
-# create pyaudio stream
-stream = audio.open(format = form_1,
-                    rate = samp_rate,
-                    channels = chans,
-                    input_device_index = dev_index,
-                    input = True,
-                    frames_per_buffer=chunk)
+    def pararGrabacion(self):
+        print("Fin grabación.")
+        # stop the stream, close it, and terminate the pyaudio instantiation
+        self.stream.stop_stream()
+        self.stream.close()
+        self.audio.terminate()
 
-print("recording")
-frames = []
+    def guardarAudio(self):
+        # save the audio frames as .wav file
+        wavefile = wave.open(WAV_OUTPUT_FILENAME, 'wb')
+        wavefile.setnchannels(CHANS)
+        wavefile.setsampwidth(self.audio.get_sample_size(FORM_1))
+        wavefile.setframerate(SAMP_RATE)
+        wavefile.writeframes(b''.join(self.frames))
+        wavefile.close()
 
-# while GPIO.input(buttonPin) == False:
-#     data = stream.read(chunk)
-#     frames.append(data)
-#     break
-
-# loop through stream and append audio chunks to frame array
-for ii in range(0, int((samp_rate/chunk)*record_secs)):
-    data = stream.read(chunk)
-    frames.append(data)
-
-print("finished recording")
-
-# stop the stream, close it, and terminate the pyaudio instantiation
-stream.stop_stream()
-stream.close()
-audio.terminate()
-
-# save the audio frames as .wav file
-wavefile = wave.open(wav_output_filename,'wb')
-wavefile.setnchannels(chans)
-wavefile.setsampwidth(audio.get_sample_size(form_1))
-wavefile.setframerate(samp_rate)
-wavefile.writeframes(b''.join(frames))
-wavefile.close()
-
+microfonoClass = Microfono()
+microfonoClass.comenzarGrabacion()
+microfonoClass.pararGrabacion()
+microfonoClass.guardarAudio()

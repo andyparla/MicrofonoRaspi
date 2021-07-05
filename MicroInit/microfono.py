@@ -20,6 +20,14 @@ card 1: headset [Sennheiser USB headset], device 0: USB Audio [USB Audio]
   Subdevices: 1/1
   Subdevice #0: subdevice #0
 """
+# SACAR DISPOSITIVOS DE AUDIO
+"""
+import pyaudio
+p = pyaudio.PyAudio()
+for ii in range (p.get_device_count()):
+	print(p.get_device_info_by_index(ii).get("name"))
+"""
+
 
 form_1 = pyaudio.paInt16 # 16-bit resolution
 chans = 1 # 2 channel

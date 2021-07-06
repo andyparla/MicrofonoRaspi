@@ -26,8 +26,8 @@ class TelebotClass():
     def getQuienSoy(self):
         return self.tb.get_me()
 
-    def enviarAudio(self):
-        audio = open('/home/pi/proyectos/MicrofonoRaspi/MicroInit/test1.wav', 'rb')
+    def enviarAudio(self, url):
+        audio = open(url, 'rb')
         # audio = open('/home/andres/Documentos/proyectos/Python/MicrofonoRaspi/MicroInit/test1.wav', 'rb')
         self.tb.send_audio(-527590805, audio)
 

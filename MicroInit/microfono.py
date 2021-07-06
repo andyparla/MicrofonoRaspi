@@ -34,7 +34,7 @@ class Microfono():
         # stop the stream, close it, and terminate the pyaudio instantiation
         for ii in range(0, int((self.SAMP_RATE / self.CHUNK) * self.RECORD_SECS)):
             data = self.stream.read(self.CHUNK)
-            self.frames.append(data)
+            self.FRAMES.append(data)
         # self.stream.stop_stream()
         # self.stream.close()
         # self.audio.terminate()

@@ -32,9 +32,12 @@ class Microfono():
     def pararGrabacion(self):
         print("Fin grabación.")
         # stop the stream, close it, and terminate the pyaudio instantiation
-        self.stream.stop_stream()
-        self.stream.close()
-        self.audio.terminate()
+        for ii in range(0, int((self.SAMP_RATE / self.CHUNK) * self.RECORD_SECS)):
+            data = self.stream.read(self.CHUNK)
+            self.frames.append(data)
+        # self.stream.stop_stream()
+        # self.stream.close()
+        # self.audio.terminate()
 
     def guardarAudio(self):
         print("Guardando audio...")

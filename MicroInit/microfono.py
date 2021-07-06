@@ -1,5 +1,6 @@
 import pyaudio
 import wave
+import time
 
 class Microfono():
 
@@ -51,6 +52,13 @@ class Microfono():
         print("Audio guardado.")
 
 microfonoClass = Microfono()
-microfonoClass.comenzarGrabacion()
+t_end = time.time() + 5
+llamado = False
+tiempo = ""
+while time.time() < t_end:
+    if not llamado:
+        microfonoClass.comenzarGrabacion()
+        llamado = True
 microfonoClass.pararGrabacion()
 microfonoClass.guardarAudio()
+

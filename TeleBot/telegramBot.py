@@ -6,9 +6,11 @@ class TelebotClass():
 
     def __init__(self):
         self.tb = telebot.TeleBot(self.TOKEN)
+
     def enviarTextoChat(self, chat_id:str, texto:str):
         self.tb.send_message(chat_id, texto)
         self.tb.message_handlers.u
+
     def getUltimoMensajeRecibido(self):
         actualizacion = self.tb.get_updates()
         mensaje = {
@@ -20,11 +22,17 @@ class TelebotClass():
         }
         print(actualizacion.__getitem__(0).message)
         return mensaje
+
     def getQuienSoy(self):
         return self.tb.get_me()
 
+    def enviarAudio(self):
+        audio = open('/home/pi/proyectos/MicrofonoRaspi/MicroInit/test1.wav', 'rb')
+        # audio = open('/home/andres/Documentos/proyectos/Python/MicrofonoRaspi/MicroInit/test1.wav', 'rb')
+        self.tb.send_audio(-527590805, audio)
 
 
 telebotVar = TelebotClass()
 # telebotVar.enviarTextoChat('1814801828', "PRUEBA")
-print(telebotVar.getUltimoMensajeRecibido())
+# print(telebotVar.getUltimoMensajeRecibido())
+telebotVar.enviarAudio()

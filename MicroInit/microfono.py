@@ -52,7 +52,7 @@ class Microfono():
         print("Audio guardado.")
 
 microfonoClass = Microfono()
-t_end = time.time() + 5
+t_end = time.time() + 35
 llamado = False
 tiempo = ""
 while time.time() < t_end:

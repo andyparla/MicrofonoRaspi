@@ -12,6 +12,7 @@ class Microfono():
     DEV_INDEX = 0  # device index found by p.get_device_info_by_index(ii)
     WAV_OUTPUT_FILENAME = 'test1.wav'  # name of .wav file
     FRAMES = []
+    GRABAR_AUDIO = False
 
     def __init__(self):
         print("Inicializando clase")
@@ -27,14 +28,17 @@ class Microfono():
     def comenzarGrabacion(self):
         print("Grabando...")
         # loop through stream and append audio chunks to frame array
-        data = self.stream.read(self.CHUNK)
-        self.FRAMES.append(data)
+        self.GRABAR_AUDIO = True
+        while self.GRABAR_AUDIO:
+            data = self.stream.read(self.CHUNK, exception_on_overflow = False)
+            self.FRAMES.append(data)
         # for ii in range(0, int((self.SAMP_RATE / self.CHUNK) * self.RECORD_SECS)):
         #     data = self.stream.read(self.CHUNK)
         #     self.FRAMES.append(data)
 
     def pararGrabacion(self):
         print("Fin grabación.")
+        self.GRABAR_AUDIO = False
         # stop the stream, close it, and terminate the pyaudio instantiation
         self.stream.stop_stream()
         self.stream.close()
@@ -51,14 +55,11 @@ class Microfono():
         wavefile.close()
         print("Audio guardado.")
 
+
 microfonoClass = Microfono()
-t_end = time.time() + 35
-llamado = False
-tiempo = ""
-while time.time() < t_end:
-    if not llamado:
-        microfonoClass.comenzarGrabacion()
-        llamado = True
-microfonoClass.pararGrabacion()
-microfonoClass.guardarAudio()
+try:
+    microfonoClass.comenzarGrabacion()
+except KeyboardInterrupt:
+    microfonoClass.pararGrabacion()
+    microfonoClass.guardarAudio()
 

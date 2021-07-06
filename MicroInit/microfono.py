@@ -28,16 +28,16 @@ class Microfono():
         # loop through stream and append audio chunks to frame array
         data = self.stream.read(self.CHUNK)
         self.FRAMES.append(data)
+        # for ii in range(0, int((self.SAMP_RATE / self.CHUNK) * self.RECORD_SECS)):
+        #     data = self.stream.read(self.CHUNK)
+        #     self.FRAMES.append(data)
 
     def pararGrabacion(self):
         print("Fin grabación.")
         # stop the stream, close it, and terminate the pyaudio instantiation
-        for ii in range(0, int((self.SAMP_RATE / self.CHUNK) * self.RECORD_SECS)):
-            data = self.stream.read(self.CHUNK)
-            self.FRAMES.append(data)
-        # self.stream.stop_stream()
-        # self.stream.close()
-        # self.audio.terminate()
+        self.stream.stop_stream()
+        self.stream.close()
+        self.audio.terminate()
 
     def guardarAudio(self):
         print("Guardando audio...")

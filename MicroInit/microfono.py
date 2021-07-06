@@ -8,7 +8,6 @@ class Microfono():
     CHANS = 1  # 2 channel
     SAMP_RATE = 44100  # 44.1kHz sampling rate
     CHUNK = 4096  # 2^12 samples for buffer
-    RECORD_SECS = 3  # seconds to record
     DEV_INDEX = 0  # device index found by p.get_device_info_by_index(ii)
     WAV_OUTPUT_FILENAME = 'test1.wav'  # name of .wav file
     FRAMES = []

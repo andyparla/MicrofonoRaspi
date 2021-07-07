@@ -10,7 +10,6 @@ class TelebotClass():
 
     def enviarTextoChat(self, chat_id:str, texto:str):
         self.bot.send_message(chat_id, texto)
-        self.bot.message_handlers.u
 
     def getUltimoMensajeRecibido(self):
         actualizacion = self.bot.get_updates()
@@ -52,4 +51,4 @@ class TelebotClass():
 telebotVar = TelebotClass()
 # telebotVar.enviarTextoChat('1814801828', "PRUEBA")
 # print(telebotVar.getUltimoMensajeRecibido())
-telebotVar.enviarAudio()
+# telebotVar.enviarAudio()

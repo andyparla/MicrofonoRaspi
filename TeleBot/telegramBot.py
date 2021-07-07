@@ -6,7 +6,6 @@ class TelebotClass():
 
     def __init__(self):
         self.bot = telebot.TeleBot(self.TOKEN)
-        self.bot.set_update_listener(self.listener)  # función escuchadora nuestra función 'listener' declarada arriba.
 
     def enviarTextoChat(self, chat_id:str, texto:str):
         self.bot.send_message(chat_id, texto)
@@ -23,30 +22,10 @@ class TelebotClass():
         print(actualizacion.__getitem__(0).message)
         return mensaje
 
-    def getQuienSoy(self):
-        return self.bot.get_me()
-
     def enviarAudio(self, url):
         audio = open(url, 'rb')
         # audio = open('/home/andres/Documentos/proyectos/Python/MicrofonoRaspi/MicroInit/test1.wav', 'rb')
         self.bot.send_audio(-527590805, audio)
-
-    # Listener, estamos definiendo una función llamada 'listener', que recibe como parámetro un dato llamado 'messages'.
-    def listener(self, messages):
-        for mssg in messages:
-            # El Cid es el identificador del chat los negativos son grupos y positivos los usuarios
-            cid = mssg.chat.id
-            if cid > 0:
-                # Si 'cid' es positivo, usaremos 'mssg.chat.first_name' para el nombre.
-                mensaje = str(mssg.chat.first_name) + " [" + str(cid) + "]: " + mssg.text
-            else:
-                # Si 'cid' es negativo, usaremos 'mssg.from_user.first_name' para el nombre.
-                mensaje = str(mssg.from_user.first_name) + "[" + str(cid) + "]: " + mssg.text
-
-        print(mensaje)  # Imprimimos el mensaje en la terminal, que nunca viene mal :)
-
-
-
 
 telebotVar = TelebotClass()
 # telebotVar.enviarTextoChat('1814801828', "PRUEBA")

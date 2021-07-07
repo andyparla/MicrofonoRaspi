@@ -1,6 +1,8 @@
 """
 DIFERENTES ACCIONES A REALIZAR CON EL BOT:
 
+https://piensa3d.com/tutorial-como-crear-programar-bot-telegram-python/
+https://geekytheory.com/telegram-programando-un-bot-en-python
 
 ###################### Enviar una simple foto: ######################
 photo = open('/home/lordsergio/Gatito_Feliz.jpg', 'rb')

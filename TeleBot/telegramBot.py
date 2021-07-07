@@ -5,14 +5,15 @@ class TelebotClass():
     TOKEN = "1856142691:AAFvGIIKkvPsrivlAnL9CRr272xJl-yKi80"  # Ponemos nuestro Token generado con el @BotFather
 
     def __init__(self):
-        self.tb = telebot.TeleBot(self.TOKEN)
+        self.bot = telebot.TeleBot(self.TOKEN)
+        self.bot.set_update_listener(self.listener)  # función escuchadora nuestra función 'listener' declarada arriba.
 
     def enviarTextoChat(self, chat_id:str, texto:str):
-        self.tb.send_message(chat_id, texto)
-        self.tb.message_handlers.u
+        self.bot.send_message(chat_id, texto)
+        self.bot.message_handlers.u
 
     def getUltimoMensajeRecibido(self):
-        actualizacion = self.tb.get_updates()
+        actualizacion = self.bot.get_updates()
         mensaje = {
             "id": actualizacion.__getitem__(len(actualizacion)-1).message.message_id,
             "user_id":  actualizacion.__getitem__(len(actualizacion)-1).message.from_user.id,
@@ -24,12 +25,28 @@ class TelebotClass():
         return mensaje
 
     def getQuienSoy(self):
-        return self.tb.get_me()
+        return self.bot.get_me()
 
     def enviarAudio(self, url):
         audio = open(url, 'rb')
         # audio = open('/home/andres/Documentos/proyectos/Python/MicrofonoRaspi/MicroInit/test1.wav', 'rb')
-        self.tb.send_audio(-527590805, audio)
+        self.bot.send_audio(-527590805, audio)
+
+    # Listener, estamos definiendo una función llamada 'listener', que recibe como parámetro un dato llamado 'messages'.
+    def listener(self, messages):
+        for mssg in messages:
+            # El Cid es el identificador del chat los negativos son grupos y positivos los usuarios
+            cid = mssg.chat.id
+            if cid > 0:
+                # Si 'cid' es positivo, usaremos 'mssg.chat.first_name' para el nombre.
+                mensaje = str(mssg.chat.first_name) + " [" + str(cid) + "]: " + mssg.text
+            else:
+                # Si 'cid' es negativo, usaremos 'mssg.from_user.first_name' para el nombre.
+                mensaje = str(mssg.from_user.first_name) + "[" + str(cid) + "]: " + mssg.text
+
+        print(mensaje)  # Imprimimos el mensaje en la terminal, que nunca viene mal :)
+
+
 
 
 telebotVar = TelebotClass()

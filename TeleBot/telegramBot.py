@@ -5,8 +5,8 @@ from Utils.leerProperties import LeerPropertyClass
 class TelebotClass():
     # chatId_Bot = 1814801828 , -527590805
     def __init__(self):
-        utilDecript= UtilsEncrypt(LeerPropertyClass.getPropertyValue("api.telegram.key").data.encode("utf-8"))
-        data = utilDecript.decryptData(LeerPropertyClass.getPropertyValue("api.telegram.token").data.encode("utf-8"))
+        utilDecript= UtilsEncrypt(LeerPropertyClass.getPropertyValue("api.telegram.key").encode("utf-8"))
+        data = utilDecript.decryptData(LeerPropertyClass.getPropertyValue("api.telegram.token").encode("utf-8"))
         self.bot = telebot.TeleBot(data)
 
     def enviarTextoChat(self, chat_id:str, texto:str):
@@ -29,7 +29,7 @@ class TelebotClass():
         # audio = open('/home/andres/Documentos/proyectos/Python/MicrofonoRaspi/MicroInit/test1.wav', 'rb')
         self.bot.send_audio(-527590805, audio)
 
-telebotVar = TelebotClass()
-telebotVar.enviarTextoChat('1814801828', "PRUEBA")
+# telebotVar = TelebotClass()
+# telebotVar.enviarTextoChat('1814801828', "PRUEBA")
 # print(telebotVar.getUltimoMensajeRecibido())
 # telebotVar.enviarAudio()

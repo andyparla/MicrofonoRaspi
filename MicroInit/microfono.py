@@ -1,6 +1,8 @@
 import pyaudio
 import wave
-import time
+from datetime import datetime
+import os
+from Utils.leerProperties import LeerPropertyClass
 
 class Microfono():
 
@@ -9,9 +11,10 @@ class Microfono():
     SAMP_RATE = 44100  # 44.1kHz sampling rate
     CHUNK = 4096  # 2^12 samples for buffer
     DEV_INDEX = 0  # device index found by p.get_device_info_by_index(ii)
-    WAV_OUTPUT_FILENAME = 'test1.wav'  # name of .wav file
     FRAMES = []
     GRABAR_AUDIO = False
+    WAV_OUTPUT_FILENAME = ""  # name of .wav file
+    WAV_OUTPUT_FOLDER = ""
 
     def __init__(self):
         print("Inicializando clase")
@@ -43,16 +46,26 @@ class Microfono():
         self.stream.close()
         self.audio.terminate()
 
-    def guardarAudio(self):
+    def guardarAudio(self, button_name):
         print("Guardando audio...")
         # save the audio frames as .wav file
-        wavefile = wave.open(self.WAV_OUTPUT_FILENAME, 'wb')
+        ficheroAudio = self.generarRutaAudio(button_name)+"/"+\
+                       button_name+ "_" + datetime.now().strftime("%d-%b-%Y_%H:%M:%S.%f") + ".wav"
+        wavefile = wave.open(ficheroAudio, 'wb')
         wavefile.setnchannels(self.CHANS)
         wavefile.setsampwidth(self.audio.get_sample_size(self.FORM_1))
         wavefile.setframerate(self.SAMP_RATE)
         wavefile.writeframes(b''.join(self.FRAMES))
         wavefile.close()
         print("Audio guardado.")
+        return ficheroAudio
+
+    def generarRutaAudio(self, name):
+        ruta_audio = LeerPropertyClass.getPropertyValue("ruta.fichero.audio") + \
+                     "/" + name
+        if not os.path.exists(ruta_audio):
+            os.makedirs(ruta_audio)
+        return ruta_audio
 
 
 microfonoClass = Microfono()
@@ -60,5 +73,5 @@ try:
     microfonoClass.comenzarGrabacion()
 except KeyboardInterrupt:
     microfonoClass.pararGrabacion()
-    microfonoClass.guardarAudio()
+    microfonoClass.guardarAudio("boton1")
 

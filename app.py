@@ -1,4 +1,5 @@
 from ButtonManager.buttonManager import ButtonManager
 
-manejadorBotonesPi = ButtonManager()
+if __name__ == "__main__":
+    manejadorBotonesPi = ButtonManager()
 

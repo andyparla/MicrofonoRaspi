@@ -68,10 +68,10 @@ class Microfono():
         return ruta_audio
 
 
-microfonoClass = Microfono()
-try:
-    microfonoClass.comenzarGrabacion()
-except KeyboardInterrupt:
-    microfonoClass.pararGrabacion()
-    microfonoClass.guardarAudio("boton1")
+# microfonoClass = Microfono()
+# try:
+#     microfonoClass.comenzarGrabacion()
+# except KeyboardInterrupt:
+#     microfonoClass.pararGrabacion()
+#     microfonoClass.guardarAudio("boton1")
 

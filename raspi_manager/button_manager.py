@@ -24,7 +24,11 @@ class ButtonManager():
         self.__configureBotones()
         self.microfonoClass = Microfono()
         self.telebotClass = TelebotClass()
-        signal.pause()
+        try:
+            signal.pause()
+        except KeyboardInterrupt:
+            print("Saliendo.")
+
 
     def __configureBotones(self):
         self.BUTTON_NIETO_A = Button(4)

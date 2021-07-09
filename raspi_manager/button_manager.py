@@ -10,8 +10,9 @@ import sys
 
 class ButtonManager():
     warnings.simplefilter('ignore')
-    BUTTON_NIETO_A = None  # GPIOZERO USES: BCM --> PIN7 https://www.programoergosum.com/cursos-online/raspberry-pi
+    # GPIOZERO USES: BCM --> PIN7 https://www.programoergosum.com/cursos-online/raspberry-pi
     # /238-control-de-gpio-con-python-en-raspberry-pi/intermitente.
+    BUTTON_NIETO_A = None
     BUTTON_SALIDA = None
     microfonoClass = None
     telebotClass = None
@@ -40,15 +41,18 @@ class ButtonManager():
         # self.BUTTON_NIETO_A.when_released = lambda: self.button_callback(self.BUTTON_NIETO_A)
 
     def button_callback(self, boton):
-        nombreBoton = self.button_map[boton.pin.number]
+        nombre_boton= self.button_map[boton.pin.number]
         if boton.is_pressed:
-            print(f"Boton pulsado {str(nombreBoton)}")
-            self.microfonoClass.comenzar_grabacion()
+            if nombre_boton != "Salida":
+                print(f"Boton pulsado {str(nombre_boton)}")
+                self.microfonoClass.comenzar_grabacion()
         else:
-            print(f"Boton liberado {str(nombreBoton)}")
-            ficheroAudio = self.microfonoClass.parar_grabacion()
-            self.telebotClass.enviar_audio(ficheroAudio)
-            sys.exit(0)
+            if nombre_boton != "Salida":
+                print(f"Boton liberado {str(nombre_boton)}")
+                ficheroAudio = self.microfonoClass.parar_grabacion()
+                self.telebotClass.enviar_audio(ficheroAudio)
+            else:
+                sys.exit(0)
 
             # try:
             #     button_a.when_pressed = pressed
@@ -63,8 +67,3 @@ class ButtonManager():
             #     button_b.close()
             #     button_x.close()
             #     button_y.close()
-
-button_map = {4: "NietoA", 14: "Salida"}
-
-for boton_key in button_map:
-    print(boton_key)

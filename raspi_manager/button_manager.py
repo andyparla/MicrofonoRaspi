@@ -12,9 +12,10 @@ class ButtonManager():
     warnings.simplefilter('ignore')
     BUTTON_NIETO_A = None  # GPIOZERO USES: BCM --> PIN7 https://www.programoergosum.com/cursos-online/raspberry-pi
     # /238-control-de-gpio-con-python-en-raspberry-pi/intermitente.
+    BUTTON_SALIDA = None
     microfonoClass = None
     telebotClass = None
-    button_map = {4: "NietoA", 6: "NietoB", 16: "NietoX", 24: "NietoY"}
+    button_map = {4: "NietoA", 14: "Salida"}
 
     def __init__(self):
         # GPIO.setmode(GPIO.BCM)
@@ -31,9 +32,12 @@ class ButtonManager():
 
 
     def __configureBotones(self):
-        self.BUTTON_NIETO_A = Button(4)
-        self.BUTTON_NIETO_A.when_pressed = lambda: self.button_callback(self.BUTTON_NIETO_A)
-        self.BUTTON_NIETO_A.when_released = lambda: self.button_callback(self.BUTTON_NIETO_A)
+        for boton_key in self.button_map:
+            Button(boton_key).when_pressed = lambda: self.button_callback()
+        # self.BUTTON_NIETO_A = Button(4)
+        # self.BUTTON_SALIDA = Button(14)
+        # self.BUTTON_NIETO_A.when_pressed = lambda: self.button_callback(self.BUTTON_NIETO_A)
+        # self.BUTTON_NIETO_A.when_released = lambda: self.button_callback(self.BUTTON_NIETO_A)
 
     def button_callback(self, boton):
         nombreBoton = self.button_map[boton.pin.number]
@@ -59,3 +63,8 @@ class ButtonManager():
             #     button_b.close()
             #     button_x.close()
             #     button_y.close()
+
+button_map = {4: "NietoA", 14: "Salida"}
+
+for boton_key in button_map:
+    print(boton_key)

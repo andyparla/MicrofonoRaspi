@@ -4,6 +4,9 @@ from telegram_bot.telegram_bot import TelebotClass
 import signal
 import warnings
 import sys
+import keyboard
+from pynput import keyboard
+
 
 
 # GPIOZERO MANUAL https://gpiozero.readthedocs.io/en/stable/recipes.html
@@ -24,6 +27,10 @@ class ButtonManager():
         self.__configureBotones()
         self.microfonoClass = Microfono()
         self.telebotClass = TelebotClass()
+        with keyboard.Listener(
+                on_press=self.on_press,
+                on_release=self.on_release) as listener:
+            listener.join()
         signal.pause()
 
     def __configureBotones(self):
@@ -41,6 +48,18 @@ class ButtonManager():
             ficheroAudio = self.microfonoClass.parar_grabacion()
             self.telebotClass.enviar_audio(ficheroAudio)
             sys.exit(0)
+
+        def on_press(key):
+            try:
+                print('Alphanumeric key pressed: {0} '.format(key.char))
+            except AttributeError:
+                print('special key pressed: {0}'.format(key))
+
+        def on_release(key):
+            print('Key released: {0}'.format(key))
+            if key == keyboard.Key.esc:
+                # Stop listener
+                return False
 
             # try:
             #     button_a.when_pressed = pressed

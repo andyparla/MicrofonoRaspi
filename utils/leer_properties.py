@@ -10,4 +10,3 @@ class LeerProperty():
             configs.load(read_prop)
         return configs.get(property_name).data
 
-LeerProperty.get_property_value()

@@ -1,9 +1,10 @@
 from cryptography.fernet import Fernet
-from Utils.leerProperties import LeerPropertyClass
+from utils.leer_properties import LeerProperty
+
 
 class UtilsEncrypt():
-
     fernet = None
+
     def __init__(self, key):
         if key != None:
             self.key = key
@@ -12,7 +13,8 @@ class UtilsEncrypt():
 
         self.fernet = Fernet(self.key)
 
-    def encryptData(self, data):
+    def encrypt_data(self, data):
         return self.fernet.encrypt(data.encode())
-    def decryptData(self, data):
+
+    def decrypt_data(self, data):
         return self.fernet.decrypt(data).decode()

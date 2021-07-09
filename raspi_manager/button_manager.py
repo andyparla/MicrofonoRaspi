@@ -1,22 +1,20 @@
 from gpiozero import Button
-from MicroInit.microfono import Microfono
-from TeleBot.telegramBot import TelebotClass
-from signal import pause
+from raspi_manager.microfono_manager import Microfono
+from telegram_bot.telegram_bot import TelebotClass
+import signal
 import warnings
 import sys
 
 
-
-#GPIOZERO MANUAL https://gpiozero.readthedocs.io/en/stable/recipes.html
+# GPIOZERO MANUAL https://gpiozero.readthedocs.io/en/stable/recipes.html
 
 class ButtonManager():
-
     warnings.simplefilter('ignore')
-    BUTTON_NIETO_A = None  # GPIOZERO USES: BCM --> PIN7 https://www.programoergosum.com/cursos-online/raspberry-pi/238-control-de-gpio-con-python-en-raspberry-pi/intermitente.
+    BUTTON_NIETO_A = None  # GPIOZERO USES: BCM --> PIN7 https://www.programoergosum.com/cursos-online/raspberry-pi
+    # /238-control-de-gpio-con-python-en-raspberry-pi/intermitente.
     microfonoClass = None
     telebotClass = None
     button_map = {4: "NietoA", 6: "NietoB", 16: "NietoX", 24: "NietoY"}
-
 
     def __init__(self):
         # GPIO.setmode(GPIO.BCM)
@@ -26,8 +24,7 @@ class ButtonManager():
         self.__configureBotones()
         self.microfonoClass = Microfono()
         self.telebotClass = TelebotClass()
-        pause()
-
+        signal.pause()
 
     def __configureBotones(self):
         self.BUTTON_NIETO_A = Button(4)
@@ -35,14 +32,14 @@ class ButtonManager():
         self.BUTTON_NIETO_A.when_released = lambda: self.button_callback(self.BUTTON_NIETO_A)
 
     def button_callback(self, boton):
-        nombreBoton=self.button_map[boton.pin.number]
+        nombreBoton = self.button_map[boton.pin.number]
         if boton.is_pressed:
             print(f"Boton pulsado {str(nombreBoton)}")
-            self.microfonoClass.comenzarGrabacion()
+            self.microfonoClass.comenzar_grabacion()
         else:
             print(f"Boton liberado {str(nombreBoton)}")
-            ficheroAudio = self.microfonoClass.pararGrabacion()
-            self.telebotClass.enviarAudio(ficheroAudio)
+            ficheroAudio = self.microfonoClass.parar_grabacion()
+            self.telebotClass.enviar_audio(ficheroAudio)
             sys.exit(0)
 
             # try:

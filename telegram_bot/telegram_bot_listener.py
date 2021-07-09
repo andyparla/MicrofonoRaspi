@@ -1,9 +1,12 @@
 import telebot
-# Este listener se ejecutaria y quedaria en escucha con el comnado screen python telegramBotListener.py
+
+
+# Este listener se ejecutaria y quedaria en escucha con el comnado screen python telegram_bot_listener.py
 class TelebotListener():
     # chatId_Bot = 1814801828 , -527590805
     TOKEN = "1856142691:AAFvGIIKkvPsrivlAnL9CRr272xJl-yKi80"  # Ponemos nuestro Token generado con el @BotFather
     bot = telebot.TeleBot(TOKEN)
+
     def __init__(self):
         self.bot.set_update_listener(self.listener)  # función escuchadora nuestra función 'listener' declarada arriba.
 
@@ -35,4 +38,5 @@ class TelebotListener():
         # this is the standard reply to a normal message
         self.bot.send_message(m.chat.id, "I don't understand, try with /help")
 
-telebotVar = TelebotListener()
+
+# telebotVar = TelebotListener()

@@ -1,5 +1,5 @@
-from ButtonManager.buttonManager import ButtonManager
+from raspi_manager.button_manager import ButtonManager
 
 if __name__ == "__main__":
-    manejadorBotonesPi = ButtonManager()
+    manejador_botones = ButtonManager()
 

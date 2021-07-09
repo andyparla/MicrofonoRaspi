@@ -1,5 +1,4 @@
 from cryptography.fernet import Fernet
-from utils.leer_properties import LeerProperty
 
 
 class UtilsEncrypt():

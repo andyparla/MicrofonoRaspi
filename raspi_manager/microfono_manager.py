@@ -49,8 +49,9 @@ class Microfono():
     def guardar_audio(self, button_name):
         print("Guardando audio...")
         # save the audio frames as .wav file
-        ficheroAudio = self.generar_ruta_audio(button_name) + "/" + \
-                       button_name + "_" + datetime.now().strftime("%d-%b-%Y_%H:%M:%S.%f") + ".wav"
+        # ficheroAudio = self.generar_ruta_audio(button_name) + "/" + \
+        #                button_name + "_" + datetime.now().strftime("%d-%b-%Y_%H:%M:%S.%f") + ".wav"
+        ficheroAudio = "/home/pi/audios/kk.wav"
         print(f"Audio almacenado: {ficheroAudio}")
         wavefile = wave.open(ficheroAudio, 'wb')
         wavefile.setnchannels(self.CHANS)
@@ -62,10 +63,10 @@ class Microfono():
         return ficheroAudio
 
     def generar_ruta_audio(self, name):
-        # ruta_audio = LeerProperty.get_property_value("ruta.fichero.audio") + "/" + name
-        # if not os.path.exists(ruta_audio):
-        #     os.makedirs(ruta_audio)
-        return "/home/pi/audios"
+        ruta_audio = LeerProperty.get_property_value("ruta.fichero.audio") + "/" + name
+        if not os.path.exists(ruta_audio):
+            os.makedirs(ruta_audio)
+        return ruta_audio
 
 # microfonoClass = Microfono()
 # try:

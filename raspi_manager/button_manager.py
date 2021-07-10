@@ -43,11 +43,11 @@ class ButtonManager():
     def button_callback(self, boton):
         nombre_boton= self.button_map[boton.pin.number]
         print(nombre_boton)
-        if boton.is_held:
+        if boton.is_pressed:
             if nombre_boton != "Salida":
                 print(f"Boton pulsado {str(boton.pin.number)}")
                 self.microfonoClass.comenzar_grabacion()
-        elif not boton.is_held:
+        else:
             if nombre_boton != "Salida":
                 print(f"Boton liberado {str(boton.pin.number)}")
                 ficheroAudio = self.microfonoClass.parar_grabacion()

@@ -51,6 +51,7 @@ class Microfono():
         # save the audio frames as .wav file
         ficheroAudio = self.generar_ruta_audio(button_name) + "/" + \
                        button_name + "_" + datetime.now().strftime("%d-%b-%Y_%H:%M:%S.%f") + ".wav"
+        print(f"Audio almacenado: {ficheroAudio}")
         wavefile = wave.open(ficheroAudio, 'wb')
         wavefile.setnchannels(self.CHANS)
         wavefile.setsampwidth(self.audio.get_sample_size(self.FORM_1))

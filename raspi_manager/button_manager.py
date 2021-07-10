@@ -55,7 +55,8 @@ class ButtonManager():
         print(nombre_boton)
         if nombre_boton != "Salida":
             print(f"Boton liberado {str(boton.pin.number)}")
-            ficheroAudio = self.microfonoClass.parar_grabacion()
+            self.microfonoClass.parar_grabacion()
+            ficheroAudio = self.microfonoClass.guardar_audio(nombre_boton)
             self.telebotClass.enviar_audio(ficheroAudio)
             boton.close()
 

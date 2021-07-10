@@ -45,8 +45,9 @@ class Microfono():
         self.stream.stop_stream()
         self.stream.close()
         self.audio.terminate()
+        return self.guardar_audio()
 
-    def guardar_audio(self, button_name):
+    def __guardar_audio(self, button_name):
         print("Guardando audio...")
         # save the audio frames as .wav file
         ficheroAudio = self.generar_ruta_audio(button_name) + "/" + \

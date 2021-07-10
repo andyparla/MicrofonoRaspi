@@ -37,23 +37,25 @@ class ButtonManager():
         #     Button(boton_key).when_pressed = lambda: self.button_callback()
         self.BUTTON_NIETO_A = Button(4)
         self.BUTTON_SALIDA = Button(14)
-        self.BUTTON_NIETO_A.when_pressed = lambda: self.button_callback(self.BUTTON_NIETO_A)
-        self.BUTTON_NIETO_A.when_released = lambda: self.button_callback(self.BUTTON_NIETO_A)
+        self.BUTTON_NIETO_A.when_held = lambda: self.button_callback(self.BUTTON_NIETO_A)
+        self.BUTTON_NIETO_A.when_released = lambda: self.button_callback_release(self.BUTTON_NIETO_A)
 
     def button_callback(self, boton):
         nombre_boton= self.button_map[boton.pin.number]
         print(nombre_boton)
-        if boton.is_pressed:
-            if nombre_boton != "Salida":
-                print(f"Boton pulsado {str(boton.pin.number)}")
-                self.microfonoClass.comenzar_grabacion()
-        else:
-            if nombre_boton != "Salida":
-                print(f"Boton liberado {str(boton.pin.number)}")
-                ficheroAudio = self.microfonoClass.parar_grabacion()
-                self.telebotClass.enviar_audio(ficheroAudio)
-            else:
-                sys.exit(0)
+        # if boton.is_pressed:
+        if nombre_boton != "Salida":
+            print(f"Boton pulsado {str(boton.pin.number)}")
+            self.microfonoClass.comenzar_grabacion()
+            # sys.exit(0)
+
+    def button_callback_release(self, boton):
+        nombre_boton = self.button_map[boton.pin.number]
+        print(nombre_boton)
+        if nombre_boton != "Salida":
+            print(f"Boton liberado {str(boton.pin.number)}")
+            ficheroAudio = self.microfonoClass.parar_grabacion()
+            self.telebotClass.enviar_audio(ficheroAudio)
 
             # try:
             #     button_a.when_pressed = pressed

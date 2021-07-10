@@ -61,8 +61,7 @@ class Microfono():
         return ficheroAudio
 
     def generar_ruta_audio(self, name):
-        ruta_audio = LeerProperty.get_property_value("ruta.fichero.audio") + \
-                     "/" + name
+        ruta_audio = LeerProperty.get_property_value("ruta.fichero.audio") + "/" + name
         if not os.path.exists(ruta_audio):
             os.makedirs(ruta_audio)
         return ruta_audio

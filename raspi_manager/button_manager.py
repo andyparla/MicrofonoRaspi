@@ -27,6 +27,7 @@ class ButtonManager():
         self.telebotClass = TelebotClass()
         self.__configureBotones()
         try:
+            print("En escucha...")
             signal.pause()
         except KeyboardInterrupt:
             print("Saliendo.")
@@ -35,10 +36,12 @@ class ButtonManager():
     def __configureBotones(self):
         # for boton_key in self.button_map:
         #     Button(boton_key).when_pressed = lambda: self.button_callback()
+        print("Configurando botonera GPIO")
         self.BUTTON_NIETO_A = Button(4)
         self.BUTTON_SALIDA = Button(14)
         self.BUTTON_NIETO_A.when_held = lambda: self.button_callback(self.BUTTON_NIETO_A)
         self.BUTTON_NIETO_A.when_released = lambda: self.button_callback_release(self.BUTTON_NIETO_A)
+        print("FIN de la configuracion GPIO")
 
     def button_callback(self, boton):
         nombre_boton= self.button_map[boton.pin.number]

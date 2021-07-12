@@ -18,7 +18,7 @@ class Microfono(threading.Thread):
     WAV_OUTPUT_FOLDER = ""
 
     def __init__(self):
-        print("Inicializando clase")
+        print("Inicializando clase Microfono")
         threading.Thread.__init__(self)
 
 

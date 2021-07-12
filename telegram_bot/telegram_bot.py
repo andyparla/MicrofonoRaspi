@@ -7,6 +7,7 @@ class TelebotClass():
     # chatId_Bot = {"mi_chat":1814801828, "diego_yo":-527590805}
     # -527590805,
     def __init__(self):
+        print("Inicializando clase TelebotClass")
         utilDecript = UtilsEncrypt(LeerProperty.get_property_value("api.telegram.key").encode("utf-8"))
         data = utilDecript.decrypt_data(LeerProperty.get_property_value("api.telegram.token").encode("utf-8"))
         self.bot = telebot.TeleBot(data)

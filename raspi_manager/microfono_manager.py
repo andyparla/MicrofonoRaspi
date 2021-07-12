@@ -3,9 +3,10 @@ import wave
 from datetime import datetime
 import os
 from utils.leer_properties import LeerProperty
+import threading
 
 
-class Microfono():
+class Microfono(threading.Thread):
     FORM_1 = pyaudio.paInt16  # 16-bit resolution
     CHANS = 1  # 2 channel
     SAMP_RATE = 44100  # 44.1kHz sampling rate
@@ -18,6 +19,10 @@ class Microfono():
 
     def __init__(self):
         print("Inicializando clase")
+        threading.Thread.__init__(self)
+
+
+    def run(self):
         self.audio = pyaudio.PyAudio()
         # create pyaudio stream
         self.stream = self.audio.open(format=self.FORM_1,
@@ -26,6 +31,7 @@ class Microfono():
                                       input_device_index=self.DEV_INDEX,
                                       input=True,
                                       frames_per_buffer=self.CHUNK)
+        self.comenzar_grabacion()
 
     def comenzar_grabacion(self):
         print("Grabando...")
@@ -34,34 +40,32 @@ class Microfono():
         while self.GRABAR_AUDIO:
             data = self.stream.read(self.CHUNK, exception_on_overflow=False)
             self.FRAMES.append(data)
-        # for ii in range(0, int((self.SAMP_RATE / self.CHUNK) * self.RECORD_SECS)):
-        #     data = self.stream.read(self.CHUNK)
-        #     self.FRAMES.append(data)
 
-    def parar_grabacion(self):
+    def parar_grabacion(self, button_name):
         print("Fin grabación.")
         self.GRABAR_AUDIO = False
         # stop the stream, close it, and terminate the pyaudio instantiation
         self.stream.stop_stream()
         self.stream.close()
         self.audio.terminate()
+        fichero_audio = self.generar_ruta_audio(button_name) + "/" + \
+                       button_name + "_" + datetime.now().strftime("%d-%b-%Y_%H:%M:%S.%f") + ".wav"
+        self.guardar_audio(fichero_audio)
 
-    def guardar_audio(self, button_name):
+    def guardar_audio(self, fichero_audio):
         print("Guardando audio...")
         # save the audio frames as .wav file
-        ficheroAudio = self.generar_ruta_audio(button_name) + "/" + \
-                       button_name + "_" + datetime.now().strftime("%d-%b-%Y_%H:%M:%S.%f") + ".wav"
-        print(f"Audio almacenado: {ficheroAudio}")
-        wavefile = wave.open(ficheroAudio, 'wb')
+
+        print(f"Audio almacenado: {fichero_audio}")
+        wavefile = wave.open(fichero_audio, 'wb')
         wavefile.setnchannels(self.CHANS)
         wavefile.setsampwidth(self.audio.get_sample_size(self.FORM_1))
         wavefile.setframerate(self.SAMP_RATE)
         wavefile.writeframes(b''.join(self.FRAMES))
         wavefile.close()
         print("Audio guardado.")
-        return ficheroAudio
 
-    def generar_ruta_audio(self, name):
+    def __generar_ruta_audio(self, name):
         ruta_audio = LeerProperty.get_property_value("ruta.fichero.audio") + "/" + name
         if not os.path.exists(ruta_audio):
             os.makedirs(ruta_audio)

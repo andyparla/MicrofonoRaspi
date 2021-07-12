@@ -30,7 +30,7 @@ class TelebotClass():
         # audio = open('/home/andres/Documentos/proyectos/Python/MicrofonoRaspi/microfono_manager/test1.wav', 'rb')
         self.bot.send_audio(-527590805, audio)
 
-telebotVar = TelebotClass()
+# telebotVar = TelebotClass()
 # telebotVar.enviarTextoChat('1814801828', "PRUEBA")
-print(telebotVar.get_ultimo_mensaje_recibido())
+# print(telebotVar.get_ultimo_mensaje_recibido())
 # telebotVar.enviarAudio()

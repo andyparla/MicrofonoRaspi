@@ -23,9 +23,9 @@ class ButtonManager():
         # GPIO.setup(self.BUTTON_GPIO, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         # GPIO.add_event_detect(self.BUTTON_GPIO, GPIO.BOTH,
         #                       callback=lambda x: self.button_callback(self.BUTTON_GPIO), bouncetime=300)
-        self.__configureBotones()
         self.microfonoClass = Microfono()
         self.telebotClass = TelebotClass()
+        self.__configureBotones()
         try:
             signal.pause()
         except KeyboardInterrupt:
@@ -46,6 +46,7 @@ class ButtonManager():
         # if boton.is_pressed:
         if nombre_boton != "Salida":
             print(f"Boton pulsado {str(boton.pin.number)}")
+            self.microfonoClass.start()
             self.microfonoClass.comenzar_grabacion()
             # boton.close()
             # sys.exit(0)

@@ -50,7 +50,7 @@ class ButtonManager():
         if nombre_boton != "Salida":
             print(f"Boton pulsado {str(boton.pin.number)}")
             self.microfonoClass.start()
-            self.microfonoClass.comenzar_grabacion()
+            # self.microfonoClass.comenzar_grabacion()
             # boton.close()
             # sys.exit(0)
 

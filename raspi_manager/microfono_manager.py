@@ -48,9 +48,9 @@ class Microfono(threading.Thread):
         self.stream.stop_stream()
         self.stream.close()
         self.audio.terminate()
-        fichero_audio = self.generar_ruta_audio(button_name) + "/" + \
+        fichero_audio = self.__generar_ruta_audio(button_name) + "/" + \
                        button_name + "_" + datetime.now().strftime("%d-%b-%Y_%H:%M:%S.%f") + ".wav"
-        self.guardar_audio(fichero_audio)
+        self.__guardar_audio(fichero_audio)
 
     def __guardar_audio(self, fichero_audio):
         print("Guardando audio...")

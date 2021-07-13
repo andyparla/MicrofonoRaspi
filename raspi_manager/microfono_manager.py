@@ -51,6 +51,7 @@ class Microfono(threading.Thread):
         fichero_audio = self.__generar_ruta_audio(button_name) + "/" + \
                        button_name + "_" + datetime.now().strftime("%d-%b-%Y_%H:%M:%S.%f") + ".wav"
         self.__guardar_audio(fichero_audio)
+        return fichero_audio
 
     def __guardar_audio(self, fichero_audio):
         print("Guardando audio...")

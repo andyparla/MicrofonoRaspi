@@ -52,7 +52,7 @@ class Microfono(threading.Thread):
                        button_name + "_" + datetime.now().strftime("%d-%b-%Y_%H:%M:%S.%f") + ".wav"
         self.guardar_audio(fichero_audio)
 
-    def guardar_audio(self, fichero_audio):
+    def __guardar_audio(self, fichero_audio):
         print("Guardando audio...")
         # save the audio frames as .wav file
 

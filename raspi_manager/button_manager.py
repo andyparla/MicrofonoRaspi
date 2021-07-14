@@ -47,7 +47,7 @@ class ButtonManager():
     def button_callback(self, boton):
         nombre_boton = self.button_map[boton.pin.number]
         print(nombre_boton)
-        if self.btn_pulsado:
+        if not self.btn_pulsado:
             self.btn_pulsado = 1
             if nombre_boton != "Salida":
                 print(f"Boton pulsado {str(boton.pin.number)}")

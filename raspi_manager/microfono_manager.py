@@ -33,7 +33,8 @@ class Microfono(threading.Thread):
                                       input_device_index=self.DEV_INDEX,
                                       input=True,
                                       frames_per_buffer=self.CHUNK)
-        self.comenzar_grabacion()
+            self.comenzar_grabacion()
+
 
     def comenzar_grabacion(self):
         print("Grabando...")

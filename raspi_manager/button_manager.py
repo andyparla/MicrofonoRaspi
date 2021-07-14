@@ -51,9 +51,6 @@ class ButtonManager():
         if nombre_boton != "Salida":
             print(f"Boton pulsado {str(boton.pin.number)}")
             self.microfono_start_audio.start()
-            # self.microfonoClass.comenzar_grabacion()
-            # boton.close()
-            # sys.exit(0)
 
     def button_callback_release(self, boton):
         nombre_boton = self.button_map[boton.pin.number]
@@ -63,17 +60,3 @@ class ButtonManager():
             fichero_audio = self.microfono_stop_audio.parar_grabacion(nombre_boton)
             self.telebotClass.enviar_audio(fichero_audio)
             boton.close()
-
-            # try:
-            #     button_a.when_pressed = pressed
-            #     button_b.when_pressed = pressed
-            #     button_x.when_pressed = pressed
-            #     button_y.when_pressed = pressed
-            #
-            #     pause()
-            #
-            # except KeyboardInterrupt:
-            #     button_a.close()
-            #     button_b.close()
-            #     button_x.close()
-            #     button_y.close()

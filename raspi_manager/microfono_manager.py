@@ -20,9 +20,6 @@ class Microfono(threading.Thread):
     def __init__(self):
         print("Inicializando clase Microfono")
         threading.Thread.__init__(self)
-
-
-    def run(self):
         self.audio = pyaudio.PyAudio()
         # create pyaudio stream
         self.stream = self.audio.open(format=self.FORM_1,
@@ -31,6 +28,10 @@ class Microfono(threading.Thread):
                                       input_device_index=self.DEV_INDEX,
                                       input=True,
                                       frames_per_buffer=self.CHUNK)
+
+
+    def run(self):
+
         self.comenzar_grabacion()
 
     def comenzar_grabacion(self):

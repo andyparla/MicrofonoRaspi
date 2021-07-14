@@ -44,6 +44,7 @@ class Microfono(threading.Thread):
             data = self.stream.read(self.CHUNK, exception_on_overflow=False)
             self.FRAMES.append(data)
 
+
     def parar_grabacion(self, button_name):
         print("Fin grabación.")
         self.GRABAR_AUDIO = False

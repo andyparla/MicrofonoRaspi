@@ -14,7 +14,8 @@ class ButtonManager():
     # /238-control-de-gpio-con-python-en-raspberry-pi/intermitente.
     BUTTON_NIETO_A = None
     BUTTON_SALIDA = None
-    microfonoClass = None
+    microfono_start_audio = None
+    microfono_stop_audio = None
     telebotClass = None
     button_map = {4: "NietoA", 14: "Salida"}
 
@@ -23,15 +24,15 @@ class ButtonManager():
         # GPIO.setup(self.BUTTON_GPIO, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         # GPIO.add_event_detect(self.BUTTON_GPIO, GPIO.BOTH,
         #                       callback=lambda x: self.button_callback(self.BUTTON_GPIO), bouncetime=300)
-        self.microfonoClass = Microfono()
+        self.microfono_start_audio = Microfono()
+        self.microfono_stop_audio = Microfono()
         self.telebotClass = TelebotClass()
         self.__configureBotones()
         try:
-            print("En escucha...")
+            print("En pausa, esperando acción...")
             signal.pause()
         except KeyboardInterrupt:
             print("Saliendo.")
-
 
     def __configureBotones(self):
         # for boton_key in self.button_map:
@@ -44,12 +45,12 @@ class ButtonManager():
         print("FIN de la configuracion GPIO")
 
     def button_callback(self, boton):
-        nombre_boton= self.button_map[boton.pin.number]
+        nombre_boton = self.button_map[boton.pin.number]
         print(nombre_boton)
         # if boton.is_pressed:
         if nombre_boton != "Salida":
             print(f"Boton pulsado {str(boton.pin.number)}")
-            self.microfonoClass.start()
+            self.microfono_start_audio.start()
             # self.microfonoClass.comenzar_grabacion()
             # boton.close()
             # sys.exit(0)
@@ -59,10 +60,9 @@ class ButtonManager():
         print(nombre_boton)
         if nombre_boton != "Salida":
             print(f"Boton liberado {str(boton.pin.number)}")
-            ficheroAudio = self.microfonoClass.parar_grabacion(nombre_boton)
-            self.telebotClass.enviar_audio(ficheroAudio)
+            fichero_audio = self.microfono_stop_audio.parar_grabacion(nombre_boton)
+            self.telebotClass.enviar_audio(fichero_audio)
             boton.close()
-
 
             # try:
             #     button_a.when_pressed = pressed

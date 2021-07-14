@@ -3,7 +3,7 @@ from raspi_manager.microfono_manager import Microfono
 from telegram_bot.telegram_bot import TelebotClass
 import signal
 import warnings
-import sys
+from time import sleep
 
 
 # GPIOZERO MANUAL https://gpiozero.readthedocs.io/en/stable/recipes.html
@@ -62,6 +62,7 @@ class ButtonManager():
             ficheroAudio = self.microfonoClass.parar_grabacion(nombre_boton)
             self.telebotClass.enviar_audio(ficheroAudio)
             boton.close()
+
 
             # try:
             #     button_a.when_pressed = pressed

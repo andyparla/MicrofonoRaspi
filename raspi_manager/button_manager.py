@@ -15,7 +15,6 @@ class ButtonManager():
     BUTTON_NIETO_A = None
     BUTTON_SALIDA = None
     microfono_start_audio = None
-    microfono_stop_audio = None
     telebotClass = None
     button_map = {4: "NietoA", 14: "Salida"}
     btn_pulsado = 0
@@ -26,7 +25,6 @@ class ButtonManager():
         # GPIO.add_event_detect(self.BUTTON_GPIO, GPIO.BOTH,
         #                       callback=lambda x: self.button_callback(self.BUTTON_GPIO), bouncetime=300)
         self.microfono_start_audio = Microfono()
-        self.microfono_stop_audio = Microfono()
         self.telebotClass = TelebotClass()
         self.__configureBotones()
         try:

@@ -42,26 +42,20 @@ class ButtonManager():
         self.BUTTON_NIETO_A = Button(4)
         self.BUTTON_SALIDA = Button(14)
         self.BUTTON_NIETO_A.when_held = lambda: self.button_callback(self.BUTTON_NIETO_A)
+        self.BUTTON_NIETO_A.when_released  = lambda: self.button_callback_release(self.BUTTON_NIETO_A)
         print("FIN de la configuracion GPIO")
 
     def button_callback(self, boton):
         nombre_boton = self.button_map[boton.pin.number]
-        print(nombre_boton)
-        if not self.btn_pulsado:
-            self.btn_pulsado = 1
-            if nombre_boton != "Salida":
-                print(f"Boton pulsado {str(boton.pin.number)}")
-                self.microfono_start_audio.start()
-
-        else:
-            self.btn_pulsado = 0
-            nombre_boton = self.button_map[boton.pin.number]
-            print(nombre_boton)
-            if nombre_boton != "Salida":
-                print(f"Boton liberado {str(boton.pin.number)}")
-                # try:
-                fichero_audio = self.microfono_stop_audio.parar_grabacion(nombre_boton)
-                self.telebotClass.enviar_audio(fichero_audio)
-                boton.close()
+        if nombre_boton != "Salida":
+            print(f"Boton pulsado {str(boton.pin.number)}")
+            self.microfono_start_audio.start()
 
 
+    def button_callback_release(self, boton):
+        nombre_boton = self.button_map[boton.pin.number]
+        if nombre_boton != "Salida":
+            print(f"Boton liberado {str(boton.pin.number)}")
+            fichero_audio = self.microfono_start_audio.parar_grabacion(nombre_boton)
+            self.telebotClass.enviar_audio(fichero_audio)
+            boton.close()

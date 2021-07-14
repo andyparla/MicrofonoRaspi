@@ -16,22 +16,23 @@ class Microfono(threading.Thread):
     GRABAR_AUDIO = False
     WAV_OUTPUT_FILENAME = ""  # name of .wav file
     WAV_OUTPUT_FOLDER = ""
+    audioObject = None
+    stream = None
 
     def __init__(self):
         print("Inicializando clase Microfono")
         threading.Thread.__init__(self)
-        self.audio = pyaudio.PyAudio()
-        # create pyaudio stream
-        self.stream = self.audio.open(format=self.FORM_1,
+
+    def run(self):
+        if self.audioObject is None and self.stream is None:
+            self.audioObject = pyaudio.PyAudio()
+            # create pyaudio stream
+            self.stream = self.audioObject.open(format=self.FORM_1,
                                       rate=self.SAMP_RATE,
                                       channels=self.CHANS,
                                       input_device_index=self.DEV_INDEX,
                                       input=True,
                                       frames_per_buffer=self.CHUNK)
-
-
-    def run(self):
-
         self.comenzar_grabacion()
 
     def comenzar_grabacion(self):
@@ -48,9 +49,9 @@ class Microfono(threading.Thread):
         # stop the stream, close it, and terminate the pyaudio instantiation
         self.stream.stop_stream()
         self.stream.close()
-        self.audio.terminate()
+        self.audioObject.terminate()
         fichero_audio = self.__generar_ruta_audio(button_name) + "/" + \
-                       button_name + "_" + datetime.now().strftime("%d-%b-%Y_%H:%M:%S.%f") + ".wav"
+                        button_name + "_" + datetime.now().strftime("%d-%b-%Y_%H:%M:%S.%f") + ".wav"
         self.__guardar_audio(fichero_audio)
         return fichero_audio
 
@@ -61,7 +62,7 @@ class Microfono(threading.Thread):
         print(f"Audio almacenado: {fichero_audio}")
         wavefile = wave.open(fichero_audio, 'wb')
         wavefile.setnchannels(self.CHANS)
-        wavefile.setsampwidth(self.audio.get_sample_size(self.FORM_1))
+        wavefile.setsampwidth(self.audioObject.get_sample_size(self.FORM_1))
         wavefile.setframerate(self.SAMP_RATE)
         wavefile.writeframes(b''.join(self.FRAMES))
         wavefile.close()

@@ -12,12 +12,13 @@ class Microfono(threading.Thread):
     SAMP_RATE = 44100  # 44.1kHz sampling rate
     CHUNK = 4096  # 2^12 samples for buffer
     DEV_INDEX = 0  # device index found by p.get_device_info_by_index(ii)
-    FRAMES = []
-    # GRABAR_AUDIO = False
+
     WAV_OUTPUT_FILENAME = ""  # name of .wav file
     WAV_OUTPUT_FOLDER = ""
     # audioObject = None
     # stream = None
+    # GRABAR_AUDIO = False
+    # FRAMES = []
 
     def __init__(self):
         print("Inicializando clase Microfono")
@@ -41,10 +42,11 @@ class Microfono(threading.Thread):
         print("Grabando...")
         # loop through stream and append audio chunks to frame array
         global GRABAR_AUDIO
+        global frames
         GRABAR_AUDIO = True
         while GRABAR_AUDIO:
             data = stream.read(self.CHUNK, exception_on_overflow=False)
-            self.FRAMES.append(data)
+            frames.append(data)
 
     def parar_grabacion(self, button_name):
         print("Fin grabación.")
@@ -67,7 +69,7 @@ class Microfono(threading.Thread):
         wavefile.setnchannels(self.CHANS)
         wavefile.setsampwidth(audioObject.get_sample_size(self.FORM_1))
         wavefile.setframerate(self.SAMP_RATE)
-        wavefile.writeframes(b''.join(self.FRAMES))
+        wavefile.writeframes(b''.join(frames))
         wavefile.close()
         print("Audio guardado.")
 

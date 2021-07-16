@@ -25,15 +25,17 @@ class Microfono(threading.Thread):
 
     def run(self):
         global audioObject
-        audioObject = pyaudio.PyAudio()
+        if audioObject is None:
+            audioObject = pyaudio.PyAudio()
         global stream
-        stream = audioObject.open(format=self.FORM_1,
+        if audioObject is None:
+            stream = audioObject.open(format=self.FORM_1,
                                                 rate=self.SAMP_RATE,
                                                 channels=self.CHANS,
                                                 input_device_index=self.DEV_INDEX,
                                                 input=True,
                                                 frames_per_buffer=self.CHUNK)
-        self.comenzar_grabacion()
+            self.comenzar_grabacion()
 
     def comenzar_grabacion(self):
         print("Grabando...")

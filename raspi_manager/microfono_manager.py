@@ -40,7 +40,7 @@ class Microfono(threading.Thread):
         # loop through stream and append audio chunks to frame array
         global GRABAR_AUDIO
         GRABAR_AUDIO = True
-        while self.GRABAR_AUDIO:
+        while GRABAR_AUDIO:
             data = stream.read(self.CHUNK, exception_on_overflow=False)
             self.FRAMES.append(data)
 

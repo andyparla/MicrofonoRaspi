@@ -15,8 +15,8 @@ class Microfono(threading.Thread):
 
     WAV_OUTPUT_FILENAME = ""  # name of .wav file
     WAV_OUTPUT_FOLDER = ""
-    # audioObject = None
-    # stream = None
+    audioObject = None
+    stream = None
     # GRABAR_AUDIO = False
     # FRAMES = []
 

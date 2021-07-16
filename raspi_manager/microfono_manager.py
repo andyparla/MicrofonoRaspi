@@ -28,7 +28,7 @@ class Microfono(threading.Thread):
         if audioObject is None:
             audioObject = pyaudio.PyAudio()
         global stream
-        if audioObject is None:
+        if stream is None:
             stream = audioObject.open(format=self.FORM_1,
                                                 rate=self.SAMP_RATE,
                                                 channels=self.CHANS,

@@ -15,28 +15,26 @@ class Microfono(threading.Thread):
 
     WAV_OUTPUT_FILENAME = ""  # name of .wav file
     WAV_OUTPUT_FOLDER = ""
-    audioObject = None
-    stream = None
     # GRABAR_AUDIO = False
     # FRAMES = []
 
-    def __init__(self):
+    def __init__(self, init):
         print("Inicializando clase Microfono")
         threading.Thread.__init__(self)
+        self.init = init
 
     def run(self):
         global audioObject
-        if audioObject is None:
-            audioObject = pyaudio.PyAudio()
         global stream
-        if stream is None:
+        if self.init:
+            audioObject = pyaudio.PyAudio()
             stream = audioObject.open(format=self.FORM_1,
                                                 rate=self.SAMP_RATE,
                                                 channels=self.CHANS,
                                                 input_device_index=self.DEV_INDEX,
                                                 input=True,
                                                 frames_per_buffer=self.CHUNK)
-            self.comenzar_grabacion()
+        self.comenzar_grabacion()
 
     def comenzar_grabacion(self):
         print("Grabando...")

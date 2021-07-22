@@ -24,11 +24,10 @@ class Microfono(threading.Thread):
         self.init = init
 
     def run(self):
-
+        global audioObject
+        global stream
         if self.init:
-            global audioObject
             audioObject = pyaudio.PyAudio()
-            global stream
             stream = audioObject.open(format=self.FORM_1,
                                                 rate=self.SAMP_RATE,
                                                 channels=self.CHANS,
@@ -41,10 +40,10 @@ class Microfono(threading.Thread):
         print("Grabando...")
         # loop through stream and append audio chunks to frame array
         global GRABAR_AUDIO
+        global frames
         GRABAR_AUDIO = True
         while GRABAR_AUDIO:
             data = stream.read(self.CHUNK, exception_on_overflow=False)
-            global frames
             frames.append(data)
 
     def parar_grabacion(self, button_name):

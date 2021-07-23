@@ -5,6 +5,8 @@ import os
 from utils.leer_properties import LeerProperty
 import threading
 
+parar_audio = False
+
 class Microfono(threading.Thread):
     FORM_1 = pyaudio.paInt16  # 16-bit resolution
     CHANS = 1  # 2 channel
@@ -32,22 +34,23 @@ class Microfono(threading.Thread):
         threading.Thread.__init__(self)
 
     def run(self):
-        self.parar_audio = False
         self.comenzar_grabacion()
 
     def comenzar_grabacion(self):
         print("Grabando...")
         # loop through stream and append audio chunks to frame array
+        global parar_audio
         while True:
             data = self.stream.read(self.CHUNK, exception_on_overflow=False)
             self.frames.append(data)
-            if self.parar_audio:
+            if parar_audio:
                 print("parado")
                 break
 
     def parar_grabacion(self, button_name):
         print("Fin grabación.")
-        self.parar_audio = True
+        global parar_audio
+        parar_audio = True
         # stop the stream, close it, and terminate the pyaudio instantiation
         self.stream.stop_stream()
         self.stream.close()

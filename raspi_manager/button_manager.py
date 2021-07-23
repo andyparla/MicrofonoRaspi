@@ -48,7 +48,7 @@ class ButtonManager():
         nombre_boton = self.button_map[boton.pin.number]
         if nombre_boton != "Salida":
             print(f"Boton pulsado {str(boton.pin.number)}")
-            self.microfono_start_audio = Microfono(True)
+            self.microfono_start_audio = Microfono(True, None)
             self.microfono_start_audio.start()
 
 

@@ -7,7 +7,7 @@ import threading
 
 audioObject = None
 stream = None
-GRABAR_AUDIO = False
+PARAR_AUDIO = False
 frames = []
 
 class Microfono(threading.Thread):
@@ -36,22 +36,22 @@ class Microfono(threading.Thread):
                                                 input_device_index=self.DEV_INDEX,
                                                 input=True,
                                                 frames_per_buffer=self.CHUNK)
-        global GRABAR_AUDIO
-        GRABAR_AUDIO = True
         self.comenzar_grabacion()
 
     def comenzar_grabacion(self):
         print("Grabando...")
         # loop through stream and append audio chunks to frame array
         global frames
-        while GRABAR_AUDIO:
+        while True:
             data = stream.read(self.CHUNK, exception_on_overflow=False)
             frames.append(data)
+            if PARAR_AUDIO:
+                break
 
     def parar_grabacion(self, button_name):
         print("Fin grabación.")
-        global GRABAR_AUDIO
-        GRABAR_AUDIO = False
+        global PARAR_AUDIO
+        PARAR_AUDIO = False
         # stop the stream, close it, and terminate the pyaudio instantiation
         stream.stop_stream()
         stream.close()

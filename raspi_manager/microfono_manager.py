@@ -57,7 +57,6 @@ class Microfono(threading.Thread):
 
     def parar_grabacion(self, button_name):
         print("Fin grabación.")
-        self.parar_audio= True
         # stop the stream, close it, and terminate the pyaudio instantiation
         self.stream.stop_stream()
         self.stream.close()

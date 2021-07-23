@@ -5,10 +5,10 @@ import os
 from utils.leer_properties import LeerProperty
 import threading
 
-audioObject
-stream
-GRABAR_AUDIO
-frames
+audioObject = None
+stream = None
+GRABAR_AUDIO = None
+frames = None
 
 class Microfono(threading.Thread):
     FORM_1 = pyaudio.paInt16  # 16-bit resolution

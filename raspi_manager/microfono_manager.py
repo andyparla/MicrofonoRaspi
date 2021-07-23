@@ -16,31 +16,31 @@ class Microfono():
     WAV_OUTPUT_FOLDER = ""
     GRABAR_AUDIO = False
     FRAMES = []
+    AUDIO_OBJECT = None
+    STREAM = None
 
-    def __init__(self):
-        print("Inicializando clase Microfono")
-        self.audioObject = pyaudio.PyAudio()
-        self.stream = self.audioObject.open(format=self.FORM_1,
-                                      rate=self.SAMP_RATE,
-                                      channels=self.CHANS,
-                                      input_device_index=self.DEV_INDEX,
-                                      input=True,
-                                      frames_per_buffer=self.CHUNK)
     def comenzar_grabacion(self):
+        self.AUDIO_OBJECT = pyaudio.PyAudio()
+        self.STREAM = self.audioObject.open(format=self.FORM_1,
+                                            rate=self.SAMP_RATE,
+                                            channels=self.CHANS,
+                                            input_device_index=self.DEV_INDEX,
+                                            input=True,
+                                            frames_per_buffer=self.CHUNK)
         print("Grabando...")
         # loop through stream and append audio chunks to frame array
         self.GRABAR_AUDIO = True
         while self.GRABAR_AUDIO:
-            data = self.stream.read(self.CHUNK, exception_on_overflow=False)
+            data = self.STREAM.read(self.CHUNK, exception_on_overflow=False)
             self.FRAMES.append(data)
 
     def parar_grabacion(self, button_name):
         print("Fin grabación.")
-        GRABAR_AUDIO = False
+        self.GRABAR_AUDIO = False
         # stop the stream, close it, and terminate the pyaudio instantiation
-        self.stream.stop_stream()
-        self.stream.close()
-        self.audioObject.terminate()
+        self.STREAM.stop_stream()
+        self.STREAM.close()
+        self.AUDIO_OBJECT.terminate()
         fichero_audio = self.__generar_ruta_audio(button_name) + "/" + \
                         button_name + "_" + datetime.now().strftime("%d-%b-%Y_%H:%M:%S.%f") + ".wav"
         self.__guardar_audio(fichero_audio)
@@ -53,7 +53,7 @@ class Microfono():
         print(f"Audio almacenado: {fichero_audio}")
         wavefile = wave.open(fichero_audio, 'wb')
         wavefile.setnchannels(self.CHANS)
-        wavefile.setsampwidth(self.audioObject.get_sample_size(self.FORM_1))
+        wavefile.setsampwidth(self.AUDIO_OBJECT.get_sample_size(self.FORM_1))
         wavefile.setframerate(self.SAMP_RATE)
         wavefile.writeframes(b''.join(self.FRAMES))
         wavefile.close()

@@ -26,12 +26,13 @@ class Microfono(threading.Thread):
                                                 input=True,
                                                 frames_per_buffer=self.CHUNK)
 
-        self.parar_audio = False
+
         self.frames = []
         print("Inicializando clase Microfono")
         threading.Thread.__init__(self)
 
     def run(self):
+
         self.comenzar_grabacion()
 
     def comenzar_grabacion(self):
@@ -46,6 +47,7 @@ class Microfono(threading.Thread):
 
     def parar_grabacion(self, button_name):
         print("Fin grabación.")
+        self.parar_audio = True
         # stop the stream, close it, and terminate the pyaudio instantiation
         self.stream.stop_stream()
         self.stream.close()

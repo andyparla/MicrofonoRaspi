@@ -5,10 +5,6 @@ import os
 from utils.leer_properties import LeerProperty
 import threading
 
-audioObject = None
-stream = None
-frames = []
-
 class Microfono(threading.Thread):
     FORM_1 = pyaudio.paInt16  # 16-bit resolution
     CHANS = 1  # 2 channel
@@ -22,29 +18,28 @@ class Microfono(threading.Thread):
     # FRAMES = []
 
     def __init__(self):
-        print("Inicializando clase Microfono")
-        threading.Thread.__init__(self)
-
-    def run(self):
-        global audioObject
-        global stream
-        audioObject = pyaudio.PyAudio()
-        self.parar_audio = False
-        stream = audioObject.open(format=self.FORM_1,
+        self.audioObject = pyaudio.PyAudio()
+        self.stream = self.audioObject.open(format=self.FORM_1,
                                                 rate=self.SAMP_RATE,
                                                 channels=self.CHANS,
                                                 input_device_index=self.DEV_INDEX,
                                                 input=True,
                                                 frames_per_buffer=self.CHUNK)
+
+        self.parar_audio = False
+        self.frames = []
+        print("Inicializando clase Microfono")
+        threading.Thread.__init__(self)
+
+    def run(self):
         self.comenzar_grabacion()
 
     def comenzar_grabacion(self):
         print("Grabando...")
         # loop through stream and append audio chunks to frame array
-        global frames
         while True:
-            data = stream.read(self.CHUNK, exception_on_overflow=False)
-            frames.append(data)
+            data = self.stream.read(self.CHUNK, exception_on_overflow=False)
+            self.frames.append(data)
             if self.parar_audio:
                 print("parado")
                 break
@@ -52,9 +47,9 @@ class Microfono(threading.Thread):
     def parar_grabacion(self, button_name):
         print("Fin grabación.")
         # stop the stream, close it, and terminate the pyaudio instantiation
-        stream.stop_stream()
-        stream.close()
-        audioObject.terminate()
+        self.stream.stop_stream()
+        self.stream.close()
+        self.audioObject.terminate()
         fichero_audio = self.__generar_ruta_audio(button_name) + "/" + \
                         button_name + "_" + datetime.now().strftime("%d-%b-%Y_%H:%M:%S.%f") + ".wav"
         self.__guardar_audio(fichero_audio)
@@ -67,9 +62,9 @@ class Microfono(threading.Thread):
         print(f"Audio almacenado: {fichero_audio}")
         wavefile = wave.open(fichero_audio, 'wb')
         wavefile.setnchannels(self.CHANS)
-        wavefile.setsampwidth(audioObject.get_sample_size(self.FORM_1))
+        wavefile.setsampwidth(self.audioObject.get_sample_size(self.FORM_1))
         wavefile.setframerate(self.SAMP_RATE)
-        wavefile.writeframes(b''.join(frames))
+        wavefile.writeframes(b''.join(self.frames))
         wavefile.close()
         print("Audio guardado.")
 

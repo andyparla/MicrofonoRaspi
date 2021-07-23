@@ -46,6 +46,7 @@ class Microfono(threading.Thread):
             data = stream.read(self.CHUNK, exception_on_overflow=False)
             frames.append(data)
             if PARAR_AUDIO:
+                print("parado")
                 break
 
     def parar_grabacion(self, button_name):

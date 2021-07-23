@@ -8,7 +8,7 @@ from utils.leer_properties import LeerProperty
 class Microfono():
     FORM_1 = pyaudio.paInt16  # 16-bit resolution
     CHANS = 1  # 2 channel
-    SAMP_RATE = 44100  # 44.1kHz sampling rate
+    SAMP_RATE = 16000  # 44.1kHz sampling rate
     CHUNK = 4096  # 2^12 samples for buffer
     DEV_INDEX = 0  # device index found by p.get_device_info_by_index(ii)
 

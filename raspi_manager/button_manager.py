@@ -8,12 +8,14 @@ from time import sleep
 
 # GPIOZERO MANUAL https://gpiozero.readthedocs.io/en/stable/recipes.html
 
-class ButtonManager(Microfono):
+class ButtonManager():
     warnings.simplefilter('ignore')
     # GPIOZERO USES: BCM --> PIN7 https://www.programoergosum.com/cursos-online/raspberry-pi
     # /238-control-de-gpio-con-python-en-raspberry-pi/intermitente.
     BUTTON_NIETO_A = None
     BUTTON_SALIDA = None
+    microfono_start_audio = None
+    microfono_pause_audio = None
     telebotClass = None
     button_map = {4: "NietoA", 14: "Salida"}
 
@@ -22,6 +24,8 @@ class ButtonManager(Microfono):
         # GPIO.setup(self.BUTTON_GPIO, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         # GPIO.add_event_detect(self.BUTTON_GPIO, GPIO.BOTH,
         #                       callback=lambda x: self.button_callback(self.BUTTON_GPIO), bouncetime=300)
+        self.microfono_start_audio = Microfono(True)
+        self.microfono_pause_audio = Microfono(False)
         self.telebotClass = TelebotClass()
         self.__configureBotones()
         try:
@@ -44,12 +48,12 @@ class ButtonManager(Microfono):
         nombre_boton = self.button_map[boton.pin.number]
         if nombre_boton != "Salida":
             print(f"Boton pulsado {str(boton.pin.number)}")
-            self.comenzar_grabacion()
+            self.microfono_start_audio.start()
 
 
     def button_callback_release(self, boton):
         nombre_boton = self.button_map[boton.pin.number]
         if nombre_boton != "Salida":
             print(f"Boton liberado {str(boton.pin.number)}")
-            fichero_audio = self.parar_grabacion(nombre_boton)
+            fichero_audio = self.microfono_pause_audio.parar_grabacion(nombre_boton)
             self.telebotClass.enviar_audio(fichero_audio)

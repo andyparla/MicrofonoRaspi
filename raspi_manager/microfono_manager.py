@@ -7,7 +7,6 @@ import threading
 
 audioObject = None
 stream = None
-PARAR_AUDIO = False
 frames = []
 
 class Microfono(threading.Thread):
@@ -30,6 +29,7 @@ class Microfono(threading.Thread):
         global audioObject
         global stream
         audioObject = pyaudio.PyAudio()
+        self.parar_audio = False
         stream = audioObject.open(format=self.FORM_1,
                                                 rate=self.SAMP_RATE,
                                                 channels=self.CHANS,
@@ -45,14 +45,12 @@ class Microfono(threading.Thread):
         while True:
             data = stream.read(self.CHUNK, exception_on_overflow=False)
             frames.append(data)
-            if PARAR_AUDIO:
+            if self.parar_audio:
                 print("parado")
                 break
 
     def parar_grabacion(self, button_name):
         print("Fin grabación.")
-        global PARAR_AUDIO
-        PARAR_AUDIO = False
         # stop the stream, close it, and terminate the pyaudio instantiation
         stream.stop_stream()
         stream.close()

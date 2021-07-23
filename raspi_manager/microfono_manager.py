@@ -44,16 +44,16 @@ class Microfono(threading.Thread):
                 print("parado")
                 break
 
-    # def comenzar_grabacion(self):
-    #     print("Grabando...")
-    #     # loop through stream and append audio chunks to frame array
-    #     self.parar_audio = True
-    #     while True:
-    #         data = self.stream.read(self.CHUNK, exception_on_overflow=False)
-    #         self.frames.append(data)
-    #         if parar_audio:
-    #             print("parado")
-    #             break
+    def comenzar_grabacion(self):
+        print("Grabando...")
+        # loop through stream and append audio chunks to frame array
+        self.parar_audio = True
+        while True:
+            data = self.stream.read(self.CHUNK, exception_on_overflow=False)
+            self.frames.append(data)
+            if parar_audio:
+                print("parado")
+                break
 
     def parar_grabacion(self, button_name):
         print("Fin grabación.")

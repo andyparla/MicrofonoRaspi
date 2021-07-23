@@ -24,8 +24,8 @@ class ButtonManager():
         # GPIO.setup(self.BUTTON_GPIO, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         # GPIO.add_event_detect(self.BUTTON_GPIO, GPIO.BOTH,
         #                       callback=lambda x: self.button_callback(self.BUTTON_GPIO), bouncetime=300)
-        self.microfono_start_audio = Microfono(True)
-        self.microfono_pause_audio = Microfono(False)
+
+
         self.telebotClass = TelebotClass()
         self.__configureBotones()
         try:
@@ -48,6 +48,7 @@ class ButtonManager():
         nombre_boton = self.button_map[boton.pin.number]
         if nombre_boton != "Salida":
             print(f"Boton pulsado {str(boton.pin.number)}")
+            self.microfono_start_audio = Microfono(True)
             self.microfono_start_audio.start()
 
 
@@ -55,5 +56,6 @@ class ButtonManager():
         nombre_boton = self.button_map[boton.pin.number]
         if nombre_boton != "Salida":
             print(f"Boton liberado {str(boton.pin.number)}")
-            fichero_audio = self.microfono_pause_audio.parar_grabacion(nombre_boton)
+            self.microfono_pause_audio = Microfono(False, nombre_boton)
+            fichero_audio = self.microfono_pause_audio.start()#parar_grabacion(nombre_boton)
             self.telebotClass.enviar_audio(fichero_audio)

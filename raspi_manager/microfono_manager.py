@@ -18,15 +18,14 @@ class Microfono(threading.Thread):
     # GRABAR_AUDIO = False
     # FRAMES = []
 
-    def __init__(self, grabar):
+    def __init__(self, grabar, nombre_boton):
         print("Inicializando clase Microfono")
         threading.Thread.__init__(self)
         global GRABAR_AUDIO
         GRABAR_AUDIO = grabar
+        self.nombre_boton = nombre_boton
 
     def run(self):
-
-
         if GRABAR_AUDIO:
             global audioObject
             audioObject = pyaudio.PyAudio()
@@ -37,16 +36,16 @@ class Microfono(threading.Thread):
                                                 input_device_index=self.DEV_INDEX,
                                                 input=True,
                                                 frames_per_buffer=self.CHUNK)
-            global frames
             self.comenzar_grabacion()
+        else:
+            self.parar_grabacion(self.nombre_boton)
 
     def comenzar_grabacion(self):
         print("Grabando...")
         # loop through stream and append audio chunks to frame array
-
-
         while GRABAR_AUDIO:
             data = stream.read(self.CHUNK, exception_on_overflow=False)
+            global frames
             frames.append(data)
 
     def parar_grabacion(self, button_name):

@@ -21,7 +21,7 @@ class Microfono():
 
     def comenzar_grabacion(self):
         self.AUDIO_OBJECT = pyaudio.PyAudio()
-        self.STREAM = self.audioObject.open(format=self.FORM_1,
+        self.STREAM = self.AUDIO_OBJECT.open(format=self.FORM_1,
                                             rate=self.SAMP_RATE,
                                             channels=self.CHANS,
                                             input_device_index=self.DEV_INDEX,

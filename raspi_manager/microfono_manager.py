@@ -29,22 +29,22 @@ class Microfono(threading.Thread):
         if self.init:
             audioObject = pyaudio.PyAudio()
             stream = audioObject.open(format=self.FORM_1,
-                                                rate=self.SAMP_RATE,
-                                                channels=self.CHANS,
-                                                input_device_index=self.DEV_INDEX,
-                                                input=True,
-                                                frames_per_buffer=self.CHUNK)
-        self.comenzar_grabacion()
+                                    rate=self.SAMP_RATE,
+                                    channels=self.CHANS,
+                                    input_device_index=self.DEV_INDEX,
+                                    input=True,
+                                    frames_per_buffer=self.CHUNK)
+            self.comenzar_grabacion()
 
     def comenzar_grabacion(self):
         print("Grabando...")
         # loop through stream and append audio chunks to frame array
         global GRABAR_AUDIO
-        global frames
         GRABAR_AUDIO = True
+        global FRAMES
         while GRABAR_AUDIO:
             data = stream.read(self.CHUNK, exception_on_overflow=False)
-            frames.append(data)
+            FRAMES.append(data)
 
     def parar_grabacion(self, button_name):
         print("Fin grabación.")
@@ -67,7 +67,7 @@ class Microfono(threading.Thread):
         wavefile.setnchannels(self.CHANS)
         wavefile.setsampwidth(audioObject.get_sample_size(self.FORM_1))
         wavefile.setframerate(self.SAMP_RATE)
-        wavefile.writeframes(b''.join(frames))
+        wavefile.writeframes(b''.join(FRAMES))
         wavefile.close()
         print("Audio guardado.")
 

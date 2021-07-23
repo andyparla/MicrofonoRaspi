@@ -32,7 +32,7 @@ class Microfono(threading.Thread):
         threading.Thread.__init__(self)
 
     def run(self):
-
+        self.parar_audio = False
         self.comenzar_grabacion()
 
     def comenzar_grabacion(self):

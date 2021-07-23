@@ -8,7 +8,7 @@ import threading
 audioObject = None
 stream = None
 GRABAR_AUDIO = None
-frames = None
+frames = []
 
 class Microfono(threading.Thread):
     FORM_1 = pyaudio.paInt16  # 16-bit resolution

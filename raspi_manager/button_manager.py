@@ -24,8 +24,7 @@ class ButtonManager():
         # GPIO.setup(self.BUTTON_GPIO, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         # GPIO.add_event_detect(self.BUTTON_GPIO, GPIO.BOTH,
         #                       callback=lambda x: self.button_callback(self.BUTTON_GPIO), bouncetime=300)
-        self.microfono_start_audio = Microfono(True)
-        self.microfono_pause_audio = Microfono(False)
+        self.microfono_start_audio = Microfono()
         self.telebotClass = TelebotClass()
         self.__configureBotones()
         try:

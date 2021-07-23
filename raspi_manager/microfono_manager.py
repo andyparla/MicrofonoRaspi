@@ -7,13 +7,13 @@ import threading
 
 audioObject = None
 stream = None
-GRABAR_AUDIO = None
+GRABAR_AUDIO = False
 frames = []
 
 class Microfono(threading.Thread):
     FORM_1 = pyaudio.paInt16  # 16-bit resolution
     CHANS = 1  # 2 channel
-    SAMP_RATE = 44100  # 44.1kHz sampling rate
+    SAMP_RATE = 22050  # 44.1kHz sampling rate
     CHUNK = 4096  # 2^12 samples for buffer
     DEV_INDEX = 0  # device index found by p.get_device_info_by_index(ii)
 
@@ -25,33 +25,32 @@ class Microfono(threading.Thread):
     def __init__(self, init):
         print("Inicializando clase Microfono")
         threading.Thread.__init__(self)
-        self.init = init
 
     def run(self):
         global audioObject
         global stream
-        if self.init:
-            audioObject = pyaudio.PyAudio()
-            stream = audioObject.open(format=self.FORM_1,
+        audioObject = pyaudio.PyAudio()
+        stream = audioObject.open(format=self.FORM_1,
                                                 rate=self.SAMP_RATE,
                                                 channels=self.CHANS,
                                                 input_device_index=self.DEV_INDEX,
                                                 input=True,
                                                 frames_per_buffer=self.CHUNK)
-            self.comenzar_grabacion()
+        global GRABAR_AUDIO
+        GRABAR_AUDIO = True
+        self.comenzar_grabacion()
 
     def comenzar_grabacion(self):
         print("Grabando...")
         # loop through stream and append audio chunks to frame array
-        global GRABAR_AUDIO
         global frames
-        GRABAR_AUDIO = True
         while GRABAR_AUDIO:
             data = stream.read(self.CHUNK, exception_on_overflow=False)
             frames.append(data)
 
     def parar_grabacion(self, button_name):
         print("Fin grabación.")
+        global GRABAR_AUDIO
         GRABAR_AUDIO = False
         # stop the stream, close it, and terminate the pyaudio instantiation
         stream.stop_stream()

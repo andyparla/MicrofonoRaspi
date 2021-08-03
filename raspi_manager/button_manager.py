@@ -26,9 +26,12 @@ class ButtonManager():
         # GPIO.setup(self.BUTTON_GPIO, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         # GPIO.add_event_detect(self.BUTTON_GPIO, GPIO.BOTH,
         #                       callback=lambda x: self.button_callback(self.BUTTON_GPIO), bouncetime=300)
-        self.microfono_start_audio = Microfono()
+
         self.telebotClass = TelebotClass()
         self.__configureBotones()
+        self.pausa_accion()
+
+    def pausa_accion(self):
         try:
             print("En pausa, esperando acción...")
             signal.pause()
@@ -50,6 +53,7 @@ class ButtonManager():
         if nombre_boton != "Salida":
             print(f"Boton pulsado {str(boton.pin.number)}")
             # self.microfono_start_audio.start()
+            self.microfono_start_audio = Microfono()
             self.fichero_audio = self.microfono_start_audio.generar_ruta_audio(nombre_boton)
             self.fichero_audio += "/" + nombre_boton + "_" + datetime.now().strftime("%d-%b-%Y_%H:%M:%S.%f") + ".wav"
             self.microfono_start_audio.comenzar_grabacion(self.fichero_audio)

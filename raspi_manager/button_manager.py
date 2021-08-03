@@ -48,7 +48,7 @@ class ButtonManager():
         if nombre_boton != "Salida":
             print(f"Boton pulsado {str(boton.pin.number)}")
             # self.microfono_start_audio.start()
-            self.microfono_start_audio.comenzar_grabacion()
+           self.fichero_audio = self.microfono_start_audio.comenzar_grabacion()
 
     def button_callback_release(self, boton):
         nombre_boton = self.button_map[boton.pin.number]
@@ -56,5 +56,4 @@ class ButtonManager():
             print(f"Boton liberado {str(boton.pin.number)}")
             self.microfono_start_audio.NOMBRE_BOTON = nombre_boton
             self.microfono_start_audio.GRABAR_AUDIO = True
-            fichero_audio = self.microfono_start_audio.obtener_ruta_audio()
-            self.telebotClass.enviar_audio(fichero_audio)
+            self.telebotClass.enviar_audio(self.fichero_audio)

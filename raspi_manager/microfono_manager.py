@@ -50,7 +50,7 @@ class Microfono(threading.Thread):
             if self.GRABAR_AUDIO:
                 print("parado")
                 break
-        self.parar_grabacion(self.NOMBRE_BOTON)
+        # self.parar_grabacion(self.NOMBRE_BOTON)
 
     def parar_grabacion(self, button_name):
         print("Fin grabación.")

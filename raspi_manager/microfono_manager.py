@@ -27,14 +27,14 @@ class Microfono(threading.Thread):
                                             input=True,
                                             frames_per_buffer=self.CHUNK)
         self.frames = []
+        self.parar_audio = False
         print("Inicializando clase Microfono")
         threading.Thread.__init__(self)
 
     def run(self):
-
         print("Grabando...")
         # loop through stream and append audio chunks to frame array
-        self.parar_audio = False
+
         while True:
             data = self.stream.read(self.CHUNK, exception_on_overflow=False)
             self.frames.append(data)

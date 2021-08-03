@@ -29,10 +29,20 @@ class Microfono(threading.Thread):
                                             frames_per_buffer=self.CHUNK)
         self.frames = []
         print("Inicializando clase Microfono")
-        threading.Thread.__init__(self)
+        # threading.Thread.__init__(self)
 
     def run(self):
 
+        print("Grabando...")
+        while True:
+            data = self.stream.read(self.CHUNK, exception_on_overflow=False)
+            self.frames.append(data)
+            if self.GRABAR_AUDIO:
+                print("parado")
+                break
+        self.parar_grabacion(self.NOMBRE_BOTON)
+
+    def comenzar_grabacion(self):
         print("Grabando...")
         while True:
             data = self.stream.read(self.CHUNK, exception_on_overflow=False)

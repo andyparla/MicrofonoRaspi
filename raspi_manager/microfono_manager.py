@@ -26,12 +26,12 @@ class Microfono(threading.Thread):
                                             input_device_index=self.DEV_INDEX,
                                             input=True,
                                             frames_per_buffer=self.CHUNK)
-
+        self.frames = []
         print("Inicializando clase Microfono")
         threading.Thread.__init__(self)
 
     def run(self):
-        self.frames = []
+
         print("Grabando...")
         # loop through stream and append audio chunks to frame array
         self.parar_audio = False

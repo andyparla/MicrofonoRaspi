@@ -19,12 +19,6 @@ class Microfono(threading.Thread):
     # FRAMES = []
 
     def __init__(self):
-
-
-        print("Inicializando clase Microfono")
-        threading.Thread.__init__(self)
-
-    def run(self):
         self.audioObject = pyaudio.PyAudio()
         self.stream = self.audioObject.open(format=self.FORM_1,
                                             rate=self.SAMP_RATE,
@@ -33,6 +27,10 @@ class Microfono(threading.Thread):
                                             input=True,
                                             frames_per_buffer=self.CHUNK)
 
+        print("Inicializando clase Microfono")
+        threading.Thread.__init__(self)
+
+    def run(self):
         self.frames = []
         print("Grabando...")
         # loop through stream and append audio chunks to frame array

@@ -18,6 +18,8 @@ class ButtonManager():
     microfono_pause_audio = None
     telebotClass = None
     button_map = {4: "NietoA", 14: "Salida"}
+    boton_parada_audio = False
+    boton_pulsado = None
 
     def __init__(self):
         # GPIO.setmode(GPIO.BCM)
@@ -51,8 +53,14 @@ class ButtonManager():
 
     def button_callback_release(self, boton):
         nombre_boton = self.button_map[boton.pin.number]
+        self.boton_pulsado = nombre_boton
+        self.boton_parada_audio = True
         if nombre_boton != "Salida":
             print(f"Boton liberado {str(boton.pin.number)}")
-            self.microfono_start_audio.parar_audio = True
-            fichero_audio = self.microfono_start_audio.parar_grabacion(nombre_boton)
-            self.telebotClass.enviar_audio(fichero_audio)
+            # self.microfono_start_audio.parar_audio = True
+            # fichero_audio = self.microfono_start_audio.parar_grabacion(nombre_boton)
+            # self.telebotClass.enviar_audio(fichero_audio)
+
+    @staticmethod
+    def manager_button_callback_release(self):
+        return self.boton_parada_audio

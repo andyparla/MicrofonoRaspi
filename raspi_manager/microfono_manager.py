@@ -2,6 +2,8 @@ import pyaudio
 import wave
 from datetime import datetime
 import os
+
+from raspi_manager.button_manager import ButtonManager
 from utils.leer_properties import LeerProperty
 import threading
 
@@ -38,7 +40,7 @@ class Microfono(threading.Thread):
         while True:
             data = self.stream.read(self.CHUNK, exception_on_overflow=False)
             self.frames.append(data)
-            if self.parar_audio:
+            if ButtonManager.manager_button_callback_release():
                 print("parado")
                 break
 

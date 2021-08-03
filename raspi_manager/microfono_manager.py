@@ -43,7 +43,7 @@ class Microfono(threading.Thread):
     #             break
     #     self.parar_grabacion(self.NOMBRE_BOTON)
 
-    def comenzar_grabacion(self):
+    def comenzar_grabacion(self, ruta_fichero_audio):
         print("Grabando...")
         while True:
             data = self.stream.read(self.CHUNK, exception_on_overflow=False)
@@ -51,17 +51,15 @@ class Microfono(threading.Thread):
             if self.GRABAR_AUDIO:
                 print("parado")
                 break
-        return self.parar_grabacion(self.NOMBRE_BOTON)
+        return self.parar_grabacion(ruta_fichero_audio)
 
-    def parar_grabacion(self, button_name):
+    def parar_grabacion(self, ruta_fichero_audio):
         print("Fin grabación.")
         # stop the stream, close it, and terminate the pyaudio instantiation
         self.stream.stop_stream()
         self.stream.close()
         self.audioObject.terminate()
-        self.fichero_audio = self.__generar_ruta_audio(button_name) + "/" + \
-                             button_name + "_" + datetime.now().strftime("%d-%b-%Y_%H:%M:%S.%f") + ".wav"
-        self.__guardar_audio(self.fichero_audio)
+        self.__guardar_audio(ruta_fichero_audio)
         return self.fichero_audio
 
     # def obtener_ruta_audio(self):
@@ -81,7 +79,7 @@ class Microfono(threading.Thread):
         wavefile.close()
         print("Audio guardado.")
 
-    def __generar_ruta_audio(self, name):
+    def generar_ruta_audio(self, name):
         ruta_audio = LeerProperty.get_property_value("ruta.fichero.audio") + "/" + name
         if not os.path.exists(ruta_audio):
             os.makedirs(ruta_audio)

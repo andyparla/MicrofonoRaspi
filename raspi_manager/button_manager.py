@@ -3,7 +3,7 @@ from raspi_manager.microfono_manager import Microfono
 from telegram_bot.telegram_bot import TelebotClass
 import signal
 import warnings
-from time import sleep
+from datetime import datetime
 
 
 # GPIOZERO MANUAL https://gpiozero.readthedocs.io/en/stable/recipes.html
@@ -49,7 +49,9 @@ class ButtonManager():
         if nombre_boton != "Salida":
             print(f"Boton pulsado {str(boton.pin.number)}")
             # self.microfono_start_audio.start()
-            self.fichero_audio = self.microfono_start_audio.comenzar_grabacion()
+            self.fichero_audio = self.microfono_start_audio.generar_ruta_audio(nombre_boton)
+            self.fichero_audio += "/" + nombre_boton + "_" + datetime.now().strftime("%d-%b-%Y_%H:%M:%S.%f") + ".wav"
+            self.microfono_start_audio.comenzar_grabacion(self.fichero_audio)
 
     def button_callback_release(self, boton):
         nombre_boton = self.button_map[boton.pin.number]

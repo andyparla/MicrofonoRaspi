@@ -2,8 +2,6 @@ import pyaudio
 import wave
 from datetime import datetime
 import os
-
-from raspi_manager.button_manager import ButtonManager
 from utils.leer_properties import LeerProperty
 import threading
 
@@ -17,7 +15,7 @@ class Microfono(threading.Thread):
 
     WAV_OUTPUT_FILENAME = ""  # name of .wav file
     WAV_OUTPUT_FOLDER = ""
-    # GRABAR_AUDIO = False
+    GRABAR_AUDIO = False
     # FRAMES = []
 
     def __init__(self):
@@ -29,31 +27,20 @@ class Microfono(threading.Thread):
                                             input=True,
                                             frames_per_buffer=self.CHUNK)
         self.frames = []
-        self.parar_audio = False
         print("Inicializando clase Microfono")
         threading.Thread.__init__(self)
 
     def run(self):
+
         print("Grabando...")
         # loop through stream and append audio chunks to frame array
 
         while True:
             data = self.stream.read(self.CHUNK, exception_on_overflow=False)
             self.frames.append(data)
-            if ButtonManager.manager_button_callback_release():
+            if self.GRABAR_AUDIO:
                 print("parado")
                 break
-
-    # def comenzar_grabacion(self):
-    #     print("Grabando...")
-    #     # loop through stream and append audio chunks to frame array
-    #     self.parar_audio = True
-    #     while True:
-    #         data = self.stream.read(self.CHUNK, exception_on_overflow=False)
-    #         self.frames.append(data)
-    #         if parar_audio:
-    #             print("parado")
-    #             break
 
     def parar_grabacion(self, button_name):
         print("Fin grabación.")

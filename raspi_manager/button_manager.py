@@ -4,6 +4,7 @@ from telegram_bot.telegram_bot import TelebotClass
 import signal
 import warnings
 from datetime import datetime
+import time
 
 
 # GPIOZERO MANUAL https://gpiozero.readthedocs.io/en/stable/recipes.html
@@ -58,4 +59,5 @@ class ButtonManager():
         if nombre_boton != "Salida":
             print(f"Boton liberado {str(boton.pin.number)}")
             self.microfono_start_audio.GRABAR_AUDIO = True
+            time.sleep(5)
             self.telebotClass.enviar_audio(self.fichero_audio)

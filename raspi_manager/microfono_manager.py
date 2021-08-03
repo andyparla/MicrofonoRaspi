@@ -67,7 +67,6 @@ class Microfono(threading.Thread):
     def __guardar_audio(self, fichero_audio):
         print("Guardando audio...")
         # save the audio frames as .wav file
-
         print(f"Audio almacenado: {fichero_audio}")
         wavefile = wave.open(fichero_audio, 'wb')
         wavefile.setnchannels(self.CHANS)

@@ -16,7 +16,7 @@ class Microfono(threading.Thread):
     WAV_OUTPUT_FILENAME = ""  # name of .wav file
     WAV_OUTPUT_FOLDER = ""
     GRABAR_AUDIO = False
-
+    NOMBRE_BOTON = None
     # FRAMES = []
 
     def __init__(self):
@@ -40,6 +40,7 @@ class Microfono(threading.Thread):
             if self.GRABAR_AUDIO:
                 print("parado")
                 break
+        self.parar_grabacion(self.NOMBRE_BOTON)
 
     def parar_grabacion(self, button_name):
         print("Fin grabación.")

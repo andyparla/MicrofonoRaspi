@@ -65,6 +65,7 @@ class Microfono(threading.Thread):
         self.__guardar_audio(self.FICHERO_AUDIO)
 
     def obtener_ruta_audio(self):
+        print(f"obtener_ruta_audio Audio almacenado: {self.FICHERO_AUDIO}")
         return self.FICHERO_AUDIO
 
     def __guardar_audio(self, fichero_audio):

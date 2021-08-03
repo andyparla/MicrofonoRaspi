@@ -18,6 +18,7 @@ class ButtonManager():
     microfono_pause_audio = None
     telebotClass = None
     button_map = {4: "NietoA", 14: "Salida"}
+    fichero_audio = None
 
     def __init__(self):
         # GPIO.setmode(GPIO.BCM)

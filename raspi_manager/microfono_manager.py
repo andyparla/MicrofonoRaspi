@@ -17,6 +17,7 @@ class Microfono(threading.Thread):
     WAV_OUTPUT_FOLDER = ""
     GRABAR_AUDIO = False
     NOMBRE_BOTON = None
+
     # FRAMES = []
 
     def __init__(self):
@@ -50,7 +51,7 @@ class Microfono(threading.Thread):
             if self.GRABAR_AUDIO:
                 print("parado")
                 break
-        # self.parar_grabacion(self.NOMBRE_BOTON)
+        self.parar_grabacion(self.NOMBRE_BOTON)
 
     def parar_grabacion(self, button_name):
         print("Fin grabación.")
@@ -58,10 +59,12 @@ class Microfono(threading.Thread):
         self.stream.stop_stream()
         self.stream.close()
         self.audioObject.terminate()
-        fichero_audio = self.__generar_ruta_audio(button_name) + "/" + \
-                        button_name + "_" + datetime.now().strftime("%d-%b-%Y_%H:%M:%S.%f") + ".wav"
-        self.__guardar_audio(fichero_audio)
-        return fichero_audio
+        self.fichero_audio = self.__generar_ruta_audio(button_name) + "/" + \
+                             button_name + "_" + datetime.now().strftime("%d-%b-%Y_%H:%M:%S.%f") + ".wav"
+        self.__guardar_audio(self.fichero_audio)
+
+    def obtener_ruta_audio(self):
+        return self.fichero_audio
 
     def __guardar_audio(self, fichero_audio):
         print("Guardando audio...")

@@ -47,7 +47,7 @@ class ButtonManager():
         nombre_boton = self.button_map[boton.pin.number]
         if nombre_boton != "Salida":
             print(f"Boton pulsado {str(boton.pin.number)}")
-            if( not self.microfono_start_audio.isAlive()):
+            if not self.microfono_start_audio.isAlive():
                 self.microfono_start_audio.start()
             else:
                 self.microfono_start_audio.run()

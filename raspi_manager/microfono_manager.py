@@ -34,8 +34,6 @@ class Microfono(threading.Thread):
     def run(self):
 
         print("Grabando...")
-        # loop through stream and append audio chunks to frame array
-
         while True:
             data = self.stream.read(self.CHUNK, exception_on_overflow=False)
             self.frames.append(data)

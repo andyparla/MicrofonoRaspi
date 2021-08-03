@@ -48,7 +48,7 @@ class ButtonManager():
         if nombre_boton != "Salida":
             print(f"Boton pulsado {str(boton.pin.number)}")
             # self.microfono_start_audio.start()
-           self.fichero_audio = self.microfono_start_audio.comenzar_grabacion()
+            self.fichero_audio = self.microfono_start_audio.comenzar_grabacion()
 
     def button_callback_release(self, boton):
         nombre_boton = self.button_map[boton.pin.number]

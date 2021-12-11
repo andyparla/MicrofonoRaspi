@@ -3,3 +3,5 @@ gpiozero==1.6.2
 jproperties==2.1.0
 cryptography==3.3.2
 PyAudio==0.2.11
+
+mariadb~=1.0.7

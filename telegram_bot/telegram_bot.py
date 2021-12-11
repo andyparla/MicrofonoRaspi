@@ -1,6 +1,7 @@
 import telebot
 from utils.utils_encrypt import UtilsEncrypt
 from utils.leer_properties import LeerProperty
+from dao.MariaDAO import DaoMariaDB
 
 
 class TelebotClass():
@@ -8,8 +9,11 @@ class TelebotClass():
     # -527590805,
     def __init__(self):
         print("Inicializando clase TelebotClass")
-        utilDecript = UtilsEncrypt(LeerProperty.get_property_value("api.telegram.key").encode("utf-8"))
-        data = utilDecript.decrypt_data(LeerProperty.get_property_value("api.telegram.token").encode("utf-8"))
+        utilDecrypt = UtilsEncrypt(LeerProperty.get_property_value("api.telegram.key").encode("utf-8"))
+        """ dao = DaoMariaDB()
+        key = dao.obtenerKeyByApp("MicrofonoRaspi")
+        utilDecrypt = UtilsEncrypt(key.encode("utf-8"))"""
+        data = utilDecrypt.decrypt_data(LeerProperty.get_property_value("api.telegram.token").encode("utf-8"))
         self.bot = telebot.TeleBot(data)
 
     def enviar_texto_chat(self, chat_id: str, texto: str):
@@ -31,7 +35,7 @@ class TelebotClass():
         # audio = open('/home/andres/Documentos/proyectos/Python/MicrofonoRaspi/microfono_manager/test1.wav', 'rb')
         self.bot.send_audio(-527590805, audio)
 
-# telebotVar = TelebotClass()
-# telebotVar.enviarTextoChat('1814801828', "PRUEBA")
+telebotVar = TelebotClass()
+telebotVar.enviar_texto_chat('1814801828', "PRUEBA")
 # print(telebotVar.get_ultimo_mensaje_recibido())
 # telebotVar.enviarAudio()
